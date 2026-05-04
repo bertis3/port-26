@@ -20,13 +20,13 @@ import { processChain } from '../data/content';
         {processChain.map((step, i) => (
           <span class="inline-flex items-center">
             <span
-              class="font-mono text-[0.8125rem] text-ink-mid px-3 py-[5px] bg-white/55 rounded-[2px]"
+              class="font-mono text-[0.75rem] text-ink-mid px-3 py-[5px] bg-white/55 rounded-[2px]"
               style="border: 1px solid rgba(0,0,0,0.09);"
             >
               {step}
             </span>
             {i < processChain.length - 1 && (
-              <span class="font-mono text-[0.8125rem] text-ink-light px-[3px]">&#8594;</span>
+              <span class="font-mono text-[0.75rem] text-ink-light px-[3px]">&#8594;</span>
             )}
           </span>
         ))}

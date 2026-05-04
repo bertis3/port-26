@@ -4,7 +4,7 @@ export const workItems = [
   {
     n: "01",
     title: "Form Optimization",
-    tag: "CRO · RPV · A/B · Multivariant",
+    tag: "CRO · RPV · A/B · Multivariate",
     metric: "1,000+ tests",
     year: "2010-25",
   },
@@ -19,7 +19,7 @@ export const workItems = [
     n: "03",
     title: "Usability Research",
     tag: "ResearchOps",
-    metric: "personas/heatmaps+",
+    metric: "personas, usability testing",
     year: "2014–20",
   },
   {
@@ -47,6 +47,7 @@ export const processChain = [
 ] as const;
 
 export const skills = [
+  "Cross-functional Leadership",
   "Experimentation Strategy",
   "A/B & MVT",
   "CRO · RPV",
@@ -61,13 +62,12 @@ export const skills = [
   "Prompt Engineering",
   "Design Systems",
   "Data Viz · Tableau",
-  "Cross-functional Leadership",
 ] as const;
 
 export const stats = [
   { value: "20+", label: "years" },
-  { value: "1,000+", label: "tests" },
-  { value: "82%", label: "time saved" },
+  { value: "1,000+", label: "structured tests" },
+  { value: "up to 82%", label: "process time reduction" },
   { value: "200+", label: "brands" },
 ] as const;
 

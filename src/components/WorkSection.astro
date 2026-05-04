@@ -8,7 +8,7 @@ import { workItems } from '../data/content';
 
     <div class="flex justify-between items-baseline mb-5">
       <Label>Selected Work</Label>
-      <span class="font-mono text-[0.6875rem] text-ink-light">5 projects</span>
+      <span class="font-mono text-[0.625rem] text-ink-light">5 projects</span>
     </div>
 
     {workItems.map(w => (
@@ -18,22 +18,22 @@ import { workItems } from '../data/content';
       >
         <!-- Desktop row: all inline -->
         <div class="hidden sm:flex items-center gap-4">
-          <span class="font-mono text-[0.8125rem] text-ink-light w-[22px] flex-shrink-0">{w.n}</span>
+          <span class="font-mono text-[0.75rem] text-ink-light w-[22px] flex-shrink-0">{w.n}</span>
           <span class="flex-1 text-[15px] font-semibold text-ink leading-tight">{w.title}</span>
-          <span class="font-mono text-[0.8125rem] text-accent flex-shrink-0">{w.tag}</span>
-          <span class="font-mono text-[0.8125rem] text-metric w-[80px] text-right flex-shrink-0">{w.metric}</span>
-          <span class="font-mono text-[0.8125rem] text-ink-light w-[44px] text-right flex-shrink-0">{w.year}</span>
+          <span class="font-mono text-[0.75rem] text-accent flex-shrink-0">{w.tag}</span>
+          <span class="font-mono text-[0.75rem] text-metric w-[80px] text-right flex-shrink-0">{w.metric}</span>
+          <span class="font-mono text-[0.75rem] text-ink-light w-[44px] text-right flex-shrink-0">{w.year}</span>
         </div>
         <!-- Mobile row: title + meta stacked -->
         <div class="sm:hidden">
           <div class="flex items-baseline gap-2.5 mb-1">
-            <span class="font-mono text-[0.8125rem] text-ink-light w-[22px] flex-shrink-0">{w.n}</span>
+            <span class="font-mono text-[0.75rem] text-ink-light w-[22px] flex-shrink-0">{w.n}</span>
             <span class="flex-1 text-[15px] font-semibold text-ink leading-tight">{w.title}</span>
           </div>
           <div class="flex items-center gap-3 ml-[30px]">
-            <span class="font-mono text-[0.8125rem] text-accent">{w.tag}</span>
-            <span class="font-mono text-[0.8125rem] text-metric ml-auto">{w.metric}</span>
-            <span class="font-mono text-[0.8125rem] text-ink-light">{w.year}</span>
+            <span class="font-mono text-[0.75rem] text-accent">{w.tag}</span>
+            <span class="font-mono text-[0.75rem] text-metric ml-auto">{w.metric}</span>
+            <span class="font-mono text-[0.75rem] text-ink-light">{w.year}</span>
           </div>
         </div>
       </a>
