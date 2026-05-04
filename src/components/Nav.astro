@@ -1,0 +1,25 @@
+---
+import { navLinks } from '../data/content';
+---
+
+<nav class="section-border">
+  <!-- mobile: name left, links right -->
+  <div class="flex items-center justify-between sm:hidden px-6 py-4">
+    <span class="font-mono text-[0.75rem] text-accent tracking-[0.18em]">GENE DAVIS</span>
+    <div class="flex gap-5">
+      {navLinks.map(link => (
+        <a href="#" class="text-[11px] text-ink-mid hover:text-ink transition-colors">{link}</a>
+      ))}
+    </div>
+  </div>
+  <!-- desktop: 3-col grid -->
+  <div class="hidden sm:grid grid-cols-[1fr_auto_1fr] items-center px-10 py-4">
+    <span class="font-mono text-[0.6875rem] text-ink-light tracking-[0.1em]">Santa Monica, CA</span>
+    <span class="font-mono text-[0.75rem] text-accent tracking-[0.18em]">GENE DAVIS</span>
+    <div class="flex gap-6 justify-end">
+      {navLinks.map(link => (
+        <a href="#" class="text-[11px] text-ink-mid hover:text-ink transition-colors">{link}</a>
+      ))}
+    </div>
+  </div>
+</nav>

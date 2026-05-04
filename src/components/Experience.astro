@@ -1,0 +1,19 @@
+---
+import Label from './Label.astro';
+import { experience } from '../data/content';
+---
+
+<section class="section-border py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-6 md:px-8">
+    <Label class="mb-5">Experience</Label>
+    {experience.map(e => (
+      <div class="flex items-baseline gap-4 py-[9px] row-border flex-wrap">
+        <div class="flex-1 min-w-0">
+          <span class="text-[13px] font-semibold text-ink">{e.role}</span>
+          <span class="text-[11px] text-ink-mid ml-2">· {e.company}</span>
+        </div>
+        <span class="font-mono text-[0.8125rem] text-ink-light flex-shrink-0">{e.period}</span>
+      </div>
+    ))}
+  </div>
+</section>

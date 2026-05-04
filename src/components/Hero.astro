@@ -1,0 +1,84 @@
+---
+---
+
+<section class="section-border py-16 md:py-24 relative overflow-hidden">
+
+  <!-- Text content — reserves right space for photo on sm+ -->
+  <div class="mx-auto max-w-6xl pl-6 md:pl-8 pr-6 sm:pr-[316px]">
+
+    <!-- Legal name -->
+    <p class="font-mono text-[0.6875rem] text-ink-light tracking-[0.1em] mb-3">
+      Bertis &#8220;Gene&#8221; Davis
+    </p>
+
+    <!-- GENE solid / DAVIS outlined -->
+    <div class="mb-5">
+      <div
+        class="font-head font-bold uppercase leading-[0.88] tracking-[-0.02em] text-ink"
+        style="font-size: clamp(64px, 12vw, 100px);"
+      >
+        Gene
+      </div>
+      <div
+        class="font-head font-bold uppercase leading-[0.88] tracking-[-0.02em]"
+        style="font-size: clamp(64px, 12vw, 100px); color: transparent; -webkit-text-stroke: 2px #18170f;"
+      >
+        Davis
+      </div>
+    </div>
+
+    <!-- Descriptor -->
+    <div class="flex items-center gap-2.5 mb-4">
+      <div class="w-[22px] h-[1.5px] bg-accent flex-shrink-0"></div>
+      <span class="font-mono text-[0.8125rem] text-ink-mid tracking-[0.1em]">
+        EXPERIMENTATION SPECIALIST · UX · AI SYSTEMS
+      </span>
+    </div>
+
+    <!-- Bio -->
+    <p class="text-sm text-ink-mid leading-[1.7] max-w-[420px] mb-5">
+      Senior experimentation and conversion optimization leader with 20+ years
+      bridging UX, data, and engineering. Designing disciplined programs
+      that turn hypotheses into measurable growth.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex gap-3 flex-wrap">
+      <a
+        href="#"
+        class="bg-accent text-white px-5 py-[9px] font-mono text-[0.6875rem] tracking-[0.08em] rounded-[2px] hover:opacity-90 transition-opacity"
+      >
+        VIEW WORK →
+      </a>
+      <a
+        href="#"
+        class="text-ink-mid px-5 py-2 font-mono text-[0.6875rem] tracking-[0.08em] rounded-[2px] transition-colors hover:bg-black/5"
+        style="border: 1px solid rgba(0,0,0,0.09);"
+      >
+        RESUME ↓
+      </a>
+    </div>
+
+    <!-- Mobile photo (below CTAs, inside normal flow) -->
+    <div class="mt-8 sm:hidden">
+      <img
+        src="/cans_04_c.png"
+        alt="Gene Davis"
+        class="w-full block"
+        style="transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
+      />
+    </div>
+
+  </div>
+
+  <!-- Desktop photo: outside the padded container, flush right + full section height -->
+  <div class="hidden sm:block absolute right-0 inset-y-0 w-[300px]">
+    <img
+      src="/cans_04_c.png"
+      alt="Gene Davis"
+      class="w-full h-full object-cover object-top"
+      style="transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
+    />
+  </div>
+
+</section>

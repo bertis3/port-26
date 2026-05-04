@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gene Davis — Portfolio Direction v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #1c1c1c; font-family: 'Space Grotesk', sans-serif; }
+.anno {
+  font-family: 'Caveat', cursive;
+  font-size: 12px;
+  color: #60a5fa;
+  opacity: 0.85;
+  pointer-events: none;
+  line-height: 1.4;
+}
+.hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.045) 0px, rgba(0,0,0,0.045) 1px,
+    transparent 1px, transparent 9px
+  );
+  border: 1.5px dashed rgba(0,0,0,0.14);
+}
+</style>
+</head>
+<body>
+<script type="text/babel">
+
+const T = {
+  bg:        'linear-gradient(170deg, #f6f4f0 0%, #eceae5 55%, #e0ddd7 100%)',
+  border:    'rgba(0,0,0,0.09)',
+  borderMid: 'rgba(0,0,0,0.06)',
+  ink:       '#18170f',
+  inkMid:    '#52504a',
+  inkLight:  '#9a9690',
+  accent:    '#1d4ed8',          /* electric blue, grounded */
+  accentStr: 'oklch(48% 0.20 222)',
+  mono:      "'IBM Plex Mono', monospace",
+  head:      "'Space Grotesk', sans-serif",
+};
+
+/* ── tiny atoms ── */
+function Label({ children, style={} }) {
+  return (
+    <div style={{ fontFamily:T.mono, fontSize:9, letterSpacing:'0.13em',
+      color:T.accent, textTransform:'uppercase', ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function Tag({ children }) {
+  return (
+    <span style={{ display:'inline-block', border:`1px solid ${T.border}`,
+      borderRadius:2, padding:'3px 9px', fontFamily:T.mono, fontSize:9,
+      color:T.inkMid, letterSpacing:'0.05em' }}>
+      {children}
+    </span>
+  );
+}
+
+/* ── the single portfolio page mockup ── */
+function Portfolio({ heroWord, photoPos, showAnno }) {
+
+  /* masked-text style — photo/gradient punches through the word */
+  const maskedStyle = {
+    fontFamily: T.head,
+    fontWeight: 700,
+    fontSize: 96,
+    letterSpacing: '-0.045em',
+    lineHeight: 0.88,
+    display: 'inline-block',
+    background: 'linear-gradient(125deg, #93c5fd 0%, #3b82f6 35%, #1e3a8a 70%, #0f172a 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    userSelect: 'none',
+  };
+
+  /* solid name style */
+  const solidName = {
+    fontFamily: T.head,
+    fontWeight: 700,
+    fontSize: 96,
+    letterSpacing: '-0.045em',
+    lineHeight: 0.88,
+    color: T.ink,
+    userSelect: 'none',
+  };
+
+  return (
+    <div style={{ width:'100%', height:'100%', background:T.bg,
+      overflowY:'auto', color:T.ink, fontFamily:T.head }}>
+
+      {/* ── NAV ── */}
+      <nav style={{ display:'grid', gridTemplateColumns:'1fr auto 1fr',
+        alignItems:'center', padding:'16px 36px',
+        borderBottom:`1px solid ${T.border}` }}>
+        <div style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+          letterSpacing:'0.1em' }}>
+          Santa Monica, CA
+        </div>
+        <div style={{ fontFamily:T.mono, fontSize:9, color:T.accent,
+          letterSpacing:'0.18em', textAlign:'center' }}>
+          GENE DAVIS
+        </div>
+        <div style={{ display:'flex', gap:24, justifyContent:'flex-end',
+          alignItems:'center' }}>
+          {['Work','Method','About','Contact'].map(n => (
+            <span key={n} style={{ fontSize:11, color:T.inkMid, letterSpacing:'0.04em' }}>{n}</span>
+          ))}
+        </div>
+      </nav>
+
+      {/* ── HERO ── */}
+      <section style={{ padding:'36px 36px 32px',
+        borderBottom:`1px solid ${T.border}`, position:'relative' }}>
+
+        <div style={{ display:'flex', gap:32,
+          alignItems: photoPos === 'left' ? 'flex-start' : 'flex-end',
+          flexDirection: photoPos === 'left' ? 'row-reverse' : 'row' }}>
+
+          {/* NAME BLOCK */}
+          <div style={{ flex:1, position:'relative' }}>
+
+            {/* legal name — small, above */}
+            <div style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+              letterSpacing:'0.1em', marginBottom:10 }}>
+              Bertis "Gene" Davis
+            </div>
+
+            {/* GENE — solid */}
+            <div style={solidName}>Gene</div>
+
+            {/* DAVIS — photo masked */}
+            <div style={{ position:'relative', display:'inline-block' }}>
+              <div style={maskedStyle}>Davis</div>
+              {showAnno && (
+                <span className="anno" style={{ position:'absolute',
+                  left:'105%', top:'30%', whiteSpace:'nowrap', fontSize:11 }}>
+                  ← photo clips through<br />"DAVIS" in production
+                </span>
+              )}
+            </div>
+
+            {/* descriptor */}
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginTop:16 }}>
+              <div style={{ width:22, height:1.5, background:T.accent }} />
+              <span style={{ fontFamily:T.mono, fontSize:9, color:T.inkMid,
+                letterSpacing:'0.1em' }}>
+                EXPERIMENTATION SPECIALIST · UX · AI SYSTEMS
+              </span>
+            </div>
+
+            {/* positioning statement */}
+            <div style={{ marginTop:14, fontSize:14, color:T.inkMid,
+              lineHeight:1.7, maxWidth:420 }}>
+              Senior experimentation and conversion leader with 20+ years
+              bridging UX, data, and engineering. I design disciplined
+              programs that turn hypotheses into measurable growth.
+            </div>
+
+            {/* CTA row */}
+            <div style={{ display:'flex', gap:12, marginTop:20, alignItems:'center' }}>
+              <div style={{ background:T.accent, color:'#fff',
+                padding:'9px 20px', fontSize:11, fontFamily:T.mono,
+                letterSpacing:'0.08em', borderRadius:2, cursor:'pointer' }}>
+                VIEW WORK →
+              </div>
+              <div style={{ border:`1px solid ${T.border}`, color:T.inkMid,
+                padding:'8px 20px', fontSize:11, fontFamily:T.mono,
+                letterSpacing:'0.08em', borderRadius:2, cursor:'pointer' }}>
+                RESUME ↓
+              </div>
+            </div>
+          </div>
+
+          {/* PHOTO PLACEHOLDER */}
+          <div style={{ flex:'0 0 220px', height:300, borderRadius:2,
+            position:'relative', alignSelf:'flex-start' }} className="hatch">
+            <div style={{ position:'absolute', inset:0, display:'flex',
+              flexDirection:'column', alignItems:'center', justifyContent:'center',
+              gap:8 }}>
+              <div style={{ width:56, height:56, borderRadius:'50%',
+                background:'rgba(0,0,0,0.08)' }} />
+              <span style={{ fontFamily:T.mono, fontSize:8, color:T.inkLight,
+                textAlign:'center', lineHeight:1.7 }}>editorial<br/>portrait<br/>placeholder</span>
+            </div>
+            {showAnno && (
+              <span className="anno" style={{ position:'absolute', bottom:8,
+                left:8, fontSize:11 }}>photo — editorial crop</span>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SELECTED WORK ── */}
+      <section style={{ padding:'28px 36px',
+        borderBottom:`1px solid ${T.border}` }}>
+        <div style={{ display:'flex', justifyContent:'space-between',
+          alignItems:'baseline', marginBottom:18 }}>
+          <Label>Selected Work</Label>
+          <span style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight }}>
+            5 projects
+          </span>
+        </div>
+        {[
+          { n:'01', title:'Checkout Form Optimization',
+            sub:'Hypothesis-led A/B experimentation across multi-step acquisition funnels',
+            tag:'CRO · A/B', metric:'+18% CVR', yr:'2023' },
+          { n:'02', title:'AI Production Systems Design',
+            sub:'Proprietary automation pipeline reducing production time by 82%',
+            tag:'AI · Automation', metric:'82% faster', yr:'2025' },
+          { n:'03', title:'Usability Research Programme',
+            sub:'Built and ran a research practice — 1,000+ tests over 9 years',
+            tag:'ResearchOps', metric:'1,000+ tests', yr:'2019–22' },
+          { n:'04', title:'Creative Experimentation at Scale',
+            sub:'Triple-digit CTOR lift across campaigns for 200+ brands',
+            tag:'Creative · Analytics', metric:'200+ brands', yr:'2020–25' },
+          { n:'05', title:'Interactive Experience Platform',
+            sub:'Motion-driven digital experiences for Microsoft, Boeing, Comcast',
+            tag:'Interaction', metric:'Global brands', yr:'2007–10' },
+        ].map(w => (
+          <div key={w.n} style={{ display:'flex', alignItems:'flex-start', gap:14,
+            padding:'13px 0', borderBottom:`1px solid ${T.borderMid}` }}>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+              minWidth:22, paddingTop:3 }}>{w.n}</span>
+            <div style={{ flex:1 }}>
+              <div style={{ fontSize:15, fontWeight:600, color:T.ink,
+                marginBottom:3, letterSpacing:'-0.01em' }}>{w.title}</div>
+              <div style={{ fontSize:11, color:T.inkMid, lineHeight:1.6 }}>{w.sub}</div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column',
+              alignItems:'flex-end', gap:4, flexShrink:0 }}>
+              <Tag>{w.tag}</Tag>
+              <span style={{ fontFamily:T.mono, fontSize:8, color:'#16a34a',
+                letterSpacing:'0.04em' }}>{w.metric}</span>
+              <span style={{ fontFamily:T.mono, fontSize:8, color:T.inkLight }}>{w.yr}</span>
+            </div>
+          </div>
+        ))}
+        {showAnno && (
+          <span className="anno" style={{ display:'block', marginTop:8 }}>
+            each row links to full case study
+          </span>
+        )}
+      </section>
+
+      {/* ── APPROACH ── */}
+      <section style={{ padding:'28px 36px',
+        borderBottom:`1px solid ${T.border}`,
+        display:'flex', gap:40 }}>
+        <div style={{ flex:'0 0 120px' }}>
+          <Label style={{ marginBottom:6 }}>Approach</Label>
+          {showAnno && (
+            <span className="anno" style={{ display:'block', marginTop:4 }}>
+              links to full<br/>Method page
+            </span>
+          )}
+        </div>
+        <div style={{ flex:1 }}>
+          <div style={{ fontSize:22, fontWeight:600, color:T.ink,
+            lineHeight:1.2, marginBottom:14 }}>
+            Every project has a hypothesis.<br />
+            Every hypothesis has a test.<br />
+            Every test has a lesson.
+          </div>
+          {/* process chain */}
+          <div style={{ display:'flex', alignItems:'center', flexWrap:'wrap', gap:0 }}>
+            {['Hypothesize','Instrument','Test','Synthesize','Ship & Measure'].map((s,i,arr) => (
+              <React.Fragment key={s}>
+                <span style={{ fontFamily:T.mono, fontSize:9, color:T.inkMid,
+                  padding:'5px 12px', border:`1px solid ${T.border}`,
+                  background:'rgba(255,255,255,0.55)', borderRadius:2,
+                  letterSpacing:'0.04em' }}>
+                  {s}
+                </span>
+                {i < arr.length-1 && (
+                  <span style={{ fontFamily:T.mono, fontSize:9,
+                    color:T.inkLight, padding:'0 3px' }}>→</span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          <div style={{ marginTop:12, fontSize:12, color:T.inkLight,
+            fontFamily:T.mono, lineHeight:1.7 }}>
+            Most effective in environments that value structured experimentation,
+            clear decision systems, and sustainable optimization over one-off wins.
+          </div>
+        </div>
+      </section>
+
+      {/* ── SKILLS ── */}
+      <section style={{ padding:'24px 36px',
+        borderBottom:`1px solid ${T.border}` }}>
+        <Label style={{ marginBottom:12 }}>Core Skills</Label>
+        <div style={{ display:'flex', flexWrap:'wrap', gap:7 }}>
+          {[
+            'Experimentation Strategy','A/B & Multivariate Testing','CRO · RPV',
+            'Funnel Optimization','Form UX','UX Research','UX Writing · Microcopy',
+            'HTML · CSS · JS','React','Figma · Adobe XD',
+            'AI Systems Design','Prompt Engineering',
+            'Design Systems','Data Viz · Tableau',
+            'Cross-functional Leadership','Design Operations',
+          ].map(s => <Tag key={s}>{s}</Tag>)}
+        </div>
+      </section>
+
+      {/* ── NUMBERS ── */}
+      <section style={{ padding:'24px 36px',
+        borderBottom:`1px solid ${T.border}`,
+        display:'flex', gap:48, alignItems:'flex-start' }}>
+        {[
+          ['20+', 'years of practice'],
+          ['1,000+', 'usability tests run'],
+          ['82%', 'production time reduced'],
+          ['200+', 'brands served'],
+        ].map(([n,l]) => (
+          <div key={n}>
+            <div style={{ fontSize:34, fontWeight:700, color:T.ink,
+              letterSpacing:'-0.02em', lineHeight:1 }}>{n}</div>
+            <div style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+              marginTop:4, letterSpacing:'0.04em' }}>{l}</div>
+          </div>
+        ))}
+        {showAnno && (
+          <span className="anno" style={{ alignSelf:'center' }}>
+            credibility anchors
+          </span>
+        )}
+      </section>
+
+      {/* ── EXPERIENCE (collapsed preview) ── */}
+      <section style={{ padding:'24px 36px',
+        borderBottom:`1px solid ${T.border}` }}>
+        <Label style={{ marginBottom:14 }}>Experience</Label>
+        {[
+          { role:'AI Production Systems Consultant', co:'[Company]', period:'2025' },
+          { role:'Senior Manager, Creative Design & Development', co:'Rooftop Digital', period:'2020–2025' },
+          { role:'Senior UX Designer, Experimentation & Conversion', co:'Core Digital Media', period:'2010–2019' },
+          { role:'Interactive Designer & Developer', co:'JWT Inside', period:'2007–2010' },
+        ].map((e,i) => (
+          <div key={i} style={{ display:'flex', gap:14, alignItems:'baseline',
+            padding:'9px 0', borderBottom:`1px solid ${T.borderMid}` }}>
+            <div style={{ flex:1 }}>
+              <span style={{ fontSize:13, fontWeight:600, color:T.ink }}>{e.role}</span>
+              <span style={{ fontSize:11, color:T.inkMid, marginLeft:8 }}>· {e.co}</span>
+            </div>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+              flexShrink:0 }}>{e.period}</span>
+          </div>
+        ))}
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ padding:'20px 36px',
+        display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div>
+          <div style={{ fontFamily:T.mono, fontSize:9, color:T.inkLight,
+            letterSpacing:'0.08em' }}>Gene Davis</div>
+          <div style={{ fontFamily:T.mono, fontSize:8, color:T.inkLight,
+            opacity:0.6 }}>Bertis "Gene" Davis · Santa Monica, CA</div>
+        </div>
+        <div style={{ display:'flex', gap:18 }}>
+          {['LinkedIn ↗','GitHub ↗','Resume ↓'].map(l => (
+            <span key={l} style={{ fontFamily:T.mono, fontSize:9,
+              color:T.accent, borderBottom:`1px solid ${T.accent}`,
+              cursor:'pointer' }}>{l}</span>
+          ))}
+        </div>
+      </footer>
+
+    </div>
+  );
+}
+
+/* ── TWEAKS PANEL ── */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroWord": "DAVIS",
+  "photoPos": "right",
+  "showAnno": true
+}/*EDITMODE-END*/;
+
+function TweaksPanel({ visible, onClose, tweaks, setTweak }) {
+  if (!visible) return null;
+  const row = { display:'flex', flexDirection:'column', gap:4 };
+  const lbl = { fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+    color:'#888', letterSpacing:'0.1em', textTransform:'uppercase' };
+  return (
+    <div style={{ position:'fixed', bottom:24, right:24, zIndex:200,
+      background:'#fff', border:'1px solid rgba(0,0,0,0.12)', borderRadius:8,
+      padding:'16px 18px', width:230,
+      boxShadow:'0 8px 32px rgba(0,0,0,0.18)',
+      fontFamily:"'Space Grotesk',sans-serif" }}>
+      <div style={{ display:'flex', justifyContent:'space-between',
+        alignItems:'center', marginBottom:14 }}>
+        <span style={{ fontWeight:600, fontSize:13, color:'#1a1917' }}>Tweaks</span>
+        <button onClick={onClose} style={{ border:'none', background:'none',
+          cursor:'pointer', fontSize:18, color:'#999', lineHeight:1 }}>×</button>
+      </div>
+      <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+
+        <div style={row}>
+          <div style={lbl}>Masked word</div>
+          {['DAVIS','GENE','EXPERIMENT','EXPERIENCE'].map(w => (
+            <label key={w} style={{ display:'flex', alignItems:'center',
+              gap:7, fontSize:11, color:'#444', cursor:'pointer' }}>
+              <input type="radio" name="word" checked={tweaks.heroWord===w}
+                onChange={() => setTweak('heroWord', w)} />
+              {w}
+            </label>
+          ))}
+        </div>
+
+        <div style={row}>
+          <div style={lbl}>Photo position</div>
+          {['right','left'].map(p => (
+            <label key={p} style={{ display:'flex', alignItems:'center',
+              gap:7, fontSize:11, color:'#444', cursor:'pointer' }}>
+              <input type="radio" name="photo" checked={tweaks.photoPos===p}
+                onChange={() => setTweak('photoPos', p)} />
+              {p}
+            </label>
+          ))}
+        </div>
+
+        <div style={row}>
+          <div style={lbl}>Annotations</div>
+          <label style={{ display:'flex', alignItems:'center',
+            gap:7, fontSize:11, color:'#444', cursor:'pointer' }}>
+            <input type="checkbox" checked={tweaks.showAnno}
+              onChange={e => setTweak('showAnno', e.target.checked)} />
+            Show design notes
+          </label>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [tweaks, setTweaksRaw] = React.useState(TWEAK_DEFAULTS);
+  const [panelVisible, setPanelVisible] = React.useState(false);
+  const setTweak = (k, v) => {
+    const next = { ...tweaks, [k]: v };
+    setTweaksRaw(next);
+    window.parent.postMessage({ type:'__edit_mode_set_keys', edits: next }, '*');
+  };
+
+  React.useEffect(() => {
+    const handler = e => {
+      if (e.data?.type === '__activate_edit_mode') setPanelVisible(true);
+      if (e.data?.type === '__deactivate_edit_mode') setPanelVisible(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type:'__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#1c1c1c',
+      display:'flex', flexDirection:'column', alignItems:'center',
+      padding:'40px 24px 80px' }}>
+
+      {/* header */}
+      <div style={{ width:'100%', maxWidth:900, marginBottom:24 }}>
+        <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:16,
+          fontWeight:600, color:'rgba(255,255,255,0.75)', marginBottom:4 }}>
+          Gene Davis — Portfolio Direction v3
+        </div>
+        <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+          color:'rgba(255,255,255,0.3)', letterSpacing:'0.12em' }}>
+          DIRECTION B REFINED · MASKED "DAVIS" · LIGHT EDITORIAL · REAL RESUME DATA
+        </div>
+      </div>
+
+      {/* single artboard, full-width */}
+      <div style={{ width:'100%', maxWidth:900, borderRadius:4, overflow:'hidden',
+        boxShadow:'0 8px 48px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3)' }}>
+        <Portfolio
+          heroWord={tweaks.heroWord}
+          photoPos={tweaks.photoPos}
+          showAnno={tweaks.showAnno}
+        />
+      </div>
+
+      {/* notes */}
+      <div style={{ width:'100%', maxWidth:900, marginTop:20, padding:'14px 18px',
+        background:'rgba(255,255,255,0.04)', borderRadius:6,
+        border:'1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:9,
+          color:'rgba(255,255,255,0.3)', letterSpacing:'0.1em', marginBottom:6 }}>
+          NEXT DECISIONS
+        </div>
+        <div style={{ fontSize:11, color:'rgba(255,255,255,0.45)', lineHeight:1.9 }}>
+          · Which word to mask — <strong style={{color:'rgba(255,255,255,0.65)'}}>DAVIS, GENE, EXPERIMENT, EXPERIENCE</strong> — toggle in Tweaks<br />
+          · Photo crop: editorial shoulder-up, slightly angled, not a headshot<br />
+          · Case study content: process write-ups + metrics for each work row<br />
+          · Method page: expand the Approach section into its own deep-dive<br />
+          · Once copy is locked → hand off to Claude Code for Astro + Tailwind build
+        </div>
+      </div>
+
+      <TweaksPanel
+        visible={panelVisible}
+        onClose={() => {
+          setPanelVisible(false);
+          window.parent.postMessage({ type:'__edit_mode_dismissed' }, '*');
+        }}
+        tweaks={tweaks}
+        setTweak={setTweak}
+      />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<div id="root"></div>
+</body>
+</html>

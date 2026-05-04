@@ -1,0 +1,16 @@
+---
+import Label from './Label.astro';
+import Tag from './Tag.astro';
+import { skills } from '../data/content';
+---
+
+<section class="section-border py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-6 md:px-8">
+    <Label class="mb-4">Core Skills</Label>
+    <div class="flex flex-wrap gap-[7px] mt-4">
+      {skills.map(skill => (
+        <Tag>{skill}</Tag>
+      ))}
+    </div>
+  </div>
+</section>
