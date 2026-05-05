@@ -45,19 +45,19 @@ HOW I'D LIKE TO WORK WITH YOU
 - For routine work I'll go to Claude Code in my terminal; come to you for guidance, planning, and step-by-step help.
 
 IMMEDIATE NEXT STEP
-[Replace this line with what you want to tackle in the new chat — e.g., "Help me set up the new portfolio project folder, scaffold Astro, and feed it the Claude Design handoff. Walk me through it step by step."]
+I've created the portfolio project folder at ~/Documents/Claude/Projects/Port-26. Help me set up the new portfolio project to include scaffold Astro and feed it the Claude Design handoff. Previously when learning, I used claude in VS terminal, though may benefit from using Code in this desktop app. Walk me through it step by step how to approach this project, including how to swicth betwen Code in this desktop app and calude in VS terminal.
 ```
 
 ---
 
 ## When to use which surface
 
-| If you want to... | Use... |
-|---|---|
-| Iterate on visual design | Claude Design (claude.ai/design) |
-| Edit code in your repo, run tests, run dev server, deploy | Claude Code (`claude` in terminal) |
-| Get planning help, ask "what should I do next," produce reference docs | Cowork (this surface) |
-| Quick factual questions, prose, snippets | claude.ai chat |
+| If you want to...                                                      | Use...                             |
+| ---------------------------------------------------------------------- | ---------------------------------- |
+| Iterate on visual design                                               | Claude Design (claude.ai/design)   |
+| Edit code in your repo, run tests, run dev server, deploy              | Claude Code (`claude` in terminal) |
+| Get planning help, ask "what should I do next," produce reference docs | Cowork (this surface)              |
+| Quick factual questions, prose, snippets                               | claude.ai chat                     |
 
 The hand-off rhythm: design in Claude Design → guidance from Cowork → build in Claude Code → back to Cowork when stuck.
 
@@ -65,7 +65,7 @@ The hand-off rhythm: design in Claude Design → guidance from Cowork → build 
 
 ## Parked items I haven't cleared yet
 
-See *Parked Items.md* in this folder. Worth a look every few sessions to see if any are now blocking, especially:
+See _Parked Items.md_ in this folder. Worth a look every few sessions to see if any are now blocking, especially:
 
 1. Verify home folder isn't a git repo (`ls -la ~/.git`)
 2. Git commit email / Vercel email alignment (if I want to deploy private repos)
@@ -73,4 +73,4 @@ See *Parked Items.md* in this folder. Worth a look every few sessions to see if 
 
 ---
 
-*Update this doc when state changes meaningfully — new tools installed, new constraints, new direction.*
+_Update this doc when state changes meaningfully — new tools installed, new constraints, new direction._

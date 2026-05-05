@@ -1,10 +1,12 @@
 ---
 ---
 
-<section class="section-border py-16 md:py-24 relative overflow-hidden">
+<section class="section-border overflow-hidden">
 
-  <!-- Text content — reserves right space for photo on sm+ -->
-  <div class="mx-auto max-w-6xl pl-6 md:pl-8 pr-6 sm:pr-[316px]">
+  <div class="mx-auto max-w-6xl flex">
+
+  <!-- Text content -->
+  <div class="flex-1 py-16 md:py-24 pl-6 md:pl-8 pr-6 sm:pr-12">
 
     <!-- Legal name -->
     <p class="font-mono text-[0.625rem] text-ink-light tracking-[0.1em] mb-3">
@@ -64,7 +66,7 @@
     <!-- Mobile photo (below CTAs, inside normal flow) -->
     <div class="mt-8 sm:hidden">
       <img
-        src="/cans_04_c.png"
+        src="/hero_1b_c.png"
         alt="Gene Davis"
         class="w-full block"
         style="transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
@@ -73,14 +75,16 @@
 
   </div>
 
-  <!-- Desktop photo: outside the padded container, flush right + full section height -->
-  <div class="hidden sm:block absolute right-0 inset-y-0 w-[300px]">
+  <!-- Desktop photo: flex sibling, bottom-anchored, natural dimensions -->
+  <div class="hidden sm:flex flex-col justify-end flex-shrink-0">
     <img
-      src="/cans_04_c.png"
+      src="/hero_1b_c.png"
       alt="Gene Davis"
-      class="w-full h-full object-cover object-top"
+      class="block"
       style="transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
     />
+  </div>
+
   </div>
 
 </section>
