@@ -19,7 +19,7 @@ export const workItems = [
     n: "03",
     title: "Usability Research",
     tag: "ResearchOps",
-    metric: "personas, usability testing",
+    metric: "personas",
     year: "2014–20",
   },
   {
@@ -32,7 +32,7 @@ export const workItems = [
   {
     n: "05",
     title: "Interactive Experience Platform",
-    tag: "Interaction",
+    tag: "Interaction · Animation",
     metric: "Global brands",
     year: "2007–10",
   },
