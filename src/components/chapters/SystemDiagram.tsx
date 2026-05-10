@@ -14,9 +14,18 @@ interface Props {
 
 export default function SystemDiagram({ caption, layers }: Props) {
   const figRef = useRef<HTMLDivElement>(null);
-  const [revealCount, setRevealCount] = useState(0);
+  const [revealProgress, setRevealProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [activeMobileLayer, setActiveMobileLayer] = useState(0);
+
+  // Precompute cumulative node start index per layer and total node count.
+  // revealProgress is a float in [0, totalNodes]: each unit reveals one node.
+  const layerStarts: number[] = [];
+  let totalNodes = 0;
+  for (const l of layers) {
+    layerStarts.push(totalNodes);
+    totalNodes += l.nodes.length;
+  }
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
@@ -27,27 +36,29 @@ export default function SystemDiagram({ caption, layers }: Props) {
   }, []);
 
   // Scroll-driven reveal (desktop)
-  // Layer 0 starts revealing when figure top is 200px from viewport top.
-  // Full reveal (all 4 layers) after 520px of additional scroll.
+  // Starts when the diagram's midpoint crosses the bottom of the viewport.
+  // Completes when the top of the diagram box reaches the top of the viewport.
+  // Nodes fade in one at a time; each column only starts after the previous is fully visible.
   useEffect(() => {
     if (isMobile) return;
     const node = figRef.current;
     if (!node) return;
-    const RANGE = 520;
 
     const onScroll = () => {
-      const top = node.getBoundingClientRect().top;
-      const t = Math.max(0, Math.min(1, (200 - top) / RANGE));
-      setRevealCount(Math.round(t * layers.length));
+      const rect = node.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const startTop = vh - rect.height / 2; // midpoint at viewport bottom
+      const endTop = 0;                       // diagram top at viewport top
+      const t = Math.max(0, Math.min(1, (startTop - rect.top) / (startTop - endTop)));
+      setRevealProgress(t * totalNodes);
     };
 
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [isMobile, layers.length]);
+  }, [isMobile, totalNodes]);
 
-  const onCount = isMobile ? layers.length : revealCount;
-  const progressWidth = `${(onCount / layers.length) * 100}%`;
+  const progressWidth = `${(revealProgress / totalNodes) * 100}%`;
 
   if (isMobile) {
     return (
@@ -150,45 +161,56 @@ export default function SystemDiagram({ caption, layers }: Props) {
       </div>
       <div className="diagram">
         <div className="layer-list">
-          {layers.map((l, i) => (
-            <div key={l.id} className={`row${i < onCount ? ' on' : ''}`}>
-              <span className="n">L{i + 1}</span>
-              <span>
-                {l.name}
-                <div
-                  style={{
-                    fontSize: 10,
-                    color: 'var(--ink-3)',
-                    marginTop: 2,
-                    textTransform: 'none',
-                    letterSpacing: 0,
-                  }}
-                >
-                  {l.sub}
-                </div>
-              </span>
-              <span className="tick" />
-            </div>
-          ))}
+          {layers.map((l, i) => {
+            const layerActive = revealProgress > layerStarts[i];
+            return (
+              <div key={l.id} className={`row${layerActive ? ' on' : ''}`}>
+                <span className="n">L{i + 1}</span>
+                <span>
+                  {l.name}
+                  <div
+                    style={{
+                      fontSize: 10,
+                      color: 'var(--ink-3)',
+                      marginTop: 2,
+                      textTransform: 'none',
+                      letterSpacing: 0,
+                    }}
+                  >
+                    {l.sub}
+                  </div>
+                </span>
+                <span className="tick" />
+              </div>
+            );
+          })}
         </div>
         <div className="stage">
-          {layers.map((l, i) => (
-            <div key={l.id} className={`col${i < onCount ? ' on' : ''}`}>
-              <div className="col-label">
-                L{i + 1} · {l.name}
+          {layers.map((l, i) => {
+            const layerActive = revealProgress > layerStarts[i];
+            return (
+              <div key={l.id} className={`col${layerActive ? ' on' : ''}`}>
+                <div className="col-label">
+                  L{i + 1} · {l.name}
+                </div>
+                <div className="nodes">
+                  {l.nodes.map((n, j) => {
+                    const globalIdx = layerStarts[i] + j;
+                    const nodeOpacity = Math.max(0, Math.min(1, revealProgress - globalIdx));
+                    return (
+                      <div
+                        key={n}
+                        className={`node${j === 0 && layerActive ? ' accent' : ''}`}
+                        style={{ opacity: nodeOpacity }}
+                      >
+                        {n}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="nodes">
-                {l.nodes.map((n, j) => (
-                  <div
-                    key={n}
-                    className={`node${j === 0 && i < onCount ? ' accent' : i >= onCount ? ' muted' : ''}`}
-                  >
-                    {n}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
           <div className="progress" style={{ width: progressWidth }} />
         </div>
       </div>

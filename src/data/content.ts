@@ -39,11 +39,12 @@ export const workItems = [
 ] as const;
 
 export const processChain = [
+  "Identify",
   "Hypothesize",
-  "Instrument",
+  "Create",
   "Test",
-  "Synthesize",
-  "Ship",
+  "Analyze",
+  "Iterate",
 ] as const;
 
 export const skills = [

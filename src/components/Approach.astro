@@ -14,9 +14,10 @@ import { processChain } from '../data/content';
       <p class="text-[21px] font-semibold text-ink leading-[1.25] mb-5">
         Every project has a hypothesis.<br />
         Every hypothesis has a test.<br />
-        Every test has a lesson.
+        Every test has a lesson.<br />
+        <span class="text-ink-faint font-normal">Even the losers.</span>
       </p>
-      <div class="flex items-center flex-wrap">
+      <div class="flex items-center flex-wrap gap-y-2">
         {processChain.map((step, i) => (
           <span class="inline-flex items-center">
             <span
