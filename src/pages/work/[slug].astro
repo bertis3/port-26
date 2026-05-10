@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import ChapterLayout from '../../layouts/ChapterLayout.astro';
+import SectionHead from '../../components/mdx/SectionHead';
+import SectionTitle from '../../components/mdx/SectionTitle';
+import Pullquote from '../../components/mdx/Pullquote';
+import SystemDiagram from '../../components/chapters/SystemDiagram';
+import { sectionId, sectionLabel } from '../../utils/chapter';
+
+export async function getStaticPaths() {
+  const chapters = await getCollection('chapters');
+  return chapters.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const sections = headings
+  .filter(h => h.depth === 2)
+  .map(h => ({
+    text: h.text,
+    label: sectionLabel(h.text),
+    id: sectionId(h.text),
+  }));
+
+const { number, title, category, era, methods, outcomes, prev, next, artifacts } = entry.data;
+---
+
+<ChapterLayout
+  number={number}
+  title={title}
+  category={category}
+  era={era}
+  methods={[...methods]}
+  outcomes={[...outcomes]}
+  prev={prev}
+  next={next}
+  artifacts={[...artifacts]}
+  sections={sections}
+>
+  <Content
+    components={{
+      h2: SectionHead,
+      h3: SectionTitle,
+      Pullquote,
+      SystemDiagram,
+    }}
+  />
+</ChapterLayout>

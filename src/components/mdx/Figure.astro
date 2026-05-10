@@ -1,0 +1,15 @@
+---
+interface Props {
+  num?: string;
+  caption?: string;
+}
+const { num = '01', caption = '' } = Astro.props;
+---
+
+<div class="figure-wrap">
+  <div class="fig-cap">
+    <span class="figno">Fig. {num}</span>
+    <span class="name">{caption}</span>
+  </div>
+  <slot />
+</div>

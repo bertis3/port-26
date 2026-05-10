@@ -4,8 +4,14 @@
   --color-ink: #18170f;
   --color-ink-mid: #52504a;
   --color-ink-light: #636160;
+  --color-ink-faint: #9a9690;
   --color-accent: #1d4ed8;
   --color-metric: #16a34a;
+  --color-rule: #c8c4bc;
+  --color-rule-soft: #d8d4cc;
+  --color-bg-paper: #f6f4f0;
+  --color-bg-paper-2: #eceae5;
+  --color-bg-paper-3: #e0ddd7;
 
   --font-head: "Barlow Condensed", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;

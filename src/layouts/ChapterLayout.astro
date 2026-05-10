@@ -1,0 +1,875 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+
+interface Outcome { num: string; lbl: string; }
+interface ChapterRef { num: string; title: string; meta: string; slug?: string; }
+interface Artifact { num: string; title: string; tag: string; meta: string; year: string; }
+interface Section { text: string; label: string; id: string; }
+
+interface Props {
+  number: string;
+  title: string;
+  category: string;
+  era: string;
+  methods: string[];
+  outcomes: Outcome[];
+  prev?: ChapterRef;
+  next?: ChapterRef;
+  artifacts: Artifact[];
+  sections: Section[];
+  totalChapters?: number;
+  readingTime?: string;
+}
+
+const {
+  number,
+  title,
+  category,
+  era,
+  methods,
+  outcomes,
+  prev,
+  next,
+  artifacts,
+  sections,
+  totalChapters = 5,
+  readingTime = '~6 min read',
+} = Astro.props;
+
+const total = String(totalChapters).padStart(2, '0');
+const prevHref = prev?.slug ? `/work/${prev.slug}` : '/#work';
+const nextHref = next?.slug ? `/work/${next.slug}` : '/#work';
+const artifactSectionNum = String(sections.length + 1).padStart(2, '0');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} — Gene Davis</title>
+    <meta name="description" content={category} />
+  </head>
+  <body>
+    <div class="ch focus" id="chapter-root">
+
+      <Nav stickyLight={true} />
+
+      <div class="crumb">
+        <a href="/#work">← Selected Work</a>
+        <span class="num">CHAPTER {number} / {total}</span>
+      </div>
+
+      <header class="header">
+        <div class="eyebrow label">{category}</div>
+        <h1>{title}</h1>
+        <div class="header-grid">
+          <div>
+            <div class="meta" style="margin-bottom: 14px">{era}</div>
+            <div class="methods">
+              {methods.map(m => <div class="pill">{m}</div>)}
+            </div>
+          </div>
+          <div class="outcomes">
+            {outcomes.map(o => (
+              <div class="stat">
+                <div class="num">{o.num}</div>
+                <div class="lbl">{o.lbl}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </header>
+      <div class="reading-rule"></div>
+
+      <main class="reading">
+        <aside class="gutter-l">
+          <div class="stick">
+            On this page
+            <nav class="toc" id="chapter-toc">
+              {sections.map((s, i) => (
+                <a href={`#${s.id}`} data-section={s.id}>
+                  <span class="n">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{s.label}</span>
+                </a>
+              ))}
+              <a href="#artifacts" data-section="artifacts">
+                <span class="n">{artifactSectionNum}</span>
+                <span>Artifacts</span>
+              </a>
+            </nav>
+          </div>
+        </aside>
+
+        <article class="prose" id="chapter-prose">
+          <slot />
+        </article>
+
+        <aside class="gutter-r">
+          <div style="position: sticky; top: 110px;">
+            <div
+              id="current-section-label"
+              style="color: var(--ink-3); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;"
+            >
+              {sections[0]?.text ?? ''}
+            </div>
+            <div style="margin-top: 10px; color: var(--ink-2); font-family: var(--mono); font-size: 11px;">
+              {readingTime}
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <section class="artifacts" id="artifacts">
+        <div class="a-head">
+          <span class="n">§ {artifactSectionNum}</span>
+          <span>Selected Artifacts</span>
+          <span>{artifacts.length} {artifacts.length === 1 ? 'entry' : 'entries'} · {era}</span>
+        </div>
+        <div class="ledger" style="margin-top: 18px">
+          {artifacts.map(a => (
+            <div class="row">
+              <div class="cell num">{a.num}</div>
+              <div class="cell">{a.title}</div>
+              <div class="cell tag">{a.tag}</div>
+              <div class="cell" style="color: var(--ink-2)">{a.meta}</div>
+              <div class="cell meta">{a.year}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="endcap">
+        {prev ? (
+          <a href={prevHref} class="cell prev">
+            <div class="dir">← Previous chapter</div>
+            <div class="meta-line meta">§ {prev.num} of {total}</div>
+            <div class="ttl">{prev.title}</div>
+            <div class="meta-line meta">{prev.meta}</div>
+          </a>
+        ) : (
+          <a href="/#work" class="cell prev">
+            <div class="dir">↑ Return to</div>
+            <div class="ttl">Selected Work</div>
+          </a>
+        )}
+        {next ? (
+          <a href={nextHref} class="cell next">
+            <div class="dir">Next chapter →</div>
+            <div class="meta-line meta">§ {next.num} of {total}</div>
+            <div class="ttl">{next.title}</div>
+            <div class="meta-line meta">{next.meta}</div>
+          </a>
+        ) : (
+          <a href="/#work" class="cell next">
+            <div class="dir">↑ Return to</div>
+            <div class="ttl">Selected Work</div>
+          </a>
+        )}
+      </section>
+
+      <footer class="footer">
+        <div>Gene Davis · Bertis "Gene" Davis · Santa Monica, CA</div>
+        <div class="links">
+          <a href="https://www.linkedin.com/in/bertisgenedavis/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="#">Resume ↓</a>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      const progress = document.getElementById('nav-progress') as HTMLElement | null;
+      const tocLinks = document.querySelectorAll<HTMLAnchorElement>('#chapter-toc a[data-section]');
+      const currentLabel = document.getElementById('current-section-label');
+
+      function setActiveSection(id: string) {
+        tocLinks.forEach(a => a.classList.toggle('active', a.dataset.section === id));
+        const active = [...tocLinks].find(a => a.dataset.section === id);
+        if (active && currentLabel) {
+          const label = active.querySelector('span:last-child')?.textContent ?? '';
+          currentLabel.textContent = label;
+        }
+      }
+
+      // Progress bar
+      function updateProgress() {
+        if (!progress) return;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.width = total > 0 ? `${(window.scrollY / total) * 100}%` : '0%';
+      }
+
+      // Scroll spy: fire when heading enters top 30% of viewport
+      const observer = new IntersectionObserver(
+        entries => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setActiveSection(entry.target.id);
+            }
+          }
+        },
+        { rootMargin: '-10% 0px -65% 0px' }
+      );
+
+      document.querySelectorAll('#chapter-prose .sec-head').forEach(el => observer.observe(el));
+
+      // Observe the artifacts section as a synthetic "section"
+      const artifactsEl = document.getElementById('artifacts');
+      if (artifactsEl) {
+        const artObserver = new IntersectionObserver(
+          entries => {
+            if (entries[0].isIntersecting) setActiveSection('artifacts');
+          },
+          { rootMargin: '-10% 0px -65% 0px' }
+        );
+        artObserver.observe(artifactsEl);
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* ── Token aliases: map chapter CSS vars to existing @theme values ── */
+  .ch {
+    --ink-1: var(--color-ink);
+    --ink-2: var(--color-ink-mid);
+    --ink-3: var(--color-ink-faint);
+    --accent: var(--color-accent);
+    --accent-ink: #ffffff;
+    --rule: var(--color-rule);
+    --rule-soft: var(--color-rule-soft);
+    --display: var(--font-body);
+    --mono: var(--font-mono);
+  }
+
+  /* ── Base ── */
+  .ch * { box-sizing: border-box; }
+  .ch {
+    font-family: var(--display);
+    color: var(--ink-1);
+    background: linear-gradient(170deg, #f7f5f1 0%, #efece7 60%, #e7e3dc 100%);
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.005em;
+    line-height: 1.5;
+    position: relative;
+    min-height: 100dvh;
+  }
+  .ch a { color: inherit; text-decoration: none; }
+  .ch p { margin: 0; }
+  .ch hr { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+  /* ── Labels / meta ── */
+  .ch .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .ch .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Topbar (chapter nav shell) ── */
+  .ch .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 18px 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .ch .topbar .left { color: var(--ink-2); }
+  .ch .topbar .center { color: var(--accent); justify-self: center; }
+  .ch .topbar nav.right { display: flex; gap: 22px; justify-self: end; color: var(--ink-1); }
+  .ch .topbar nav.right a:hover { color: var(--accent); }
+  .ch .topbar nav.right .current { color: var(--ink-3); }
+
+  /* Sticky-light nav on chapter routes */
+  .ch.focus .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(246, 244, 240, 0.78);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid rgba(200, 196, 188, 0.5);
+    padding: 14px 40px;
+  }
+  .ch.focus .topbar .progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.1s linear;
+  }
+
+  /* ── Crumb ── */
+  .ch .crumb {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 28px 40px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+  .ch .crumb a { color: var(--accent); }
+  .ch .crumb .num { color: var(--ink-3); }
+
+  /* ── Chapter header ── */
+  .ch .header {
+    padding: 46px 40px 56px;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .ch.focus .header {
+    padding: 88px 40px 64px;
+    border-bottom: 0;
+  }
+  .ch .header .eyebrow {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    color: var(--ink-2);
+  }
+  .ch.focus .header .eyebrow { color: var(--accent); }
+  .ch .header h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(48px, 6.2vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    margin: 0;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .ch.focus .header h1 {
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    max-width: 14ch;
+  }
+  .ch .header .header-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 56px;
+    align-items: end;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 22px;
+  }
+  .ch .methods { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ch .methods .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 9px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink-1);
+    background: rgba(255, 255, 255, 0.35);
+  }
+  .ch .outcomes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+  .ch .outcomes .stat .num {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .ch .outcomes .stat .lbl {
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+
+  /* Reading rule (Variant B) */
+  .ch.focus .reading-rule {
+    height: 1px;
+    background: var(--rule);
+    margin: 0 40px;
+  }
+
+  /* ── Reading body ── */
+  .ch .reading {
+    padding: 64px 40px 80px;
+    display: grid;
+    grid-template-columns: 180px 1fr 180px;
+    gap: 40px;
+  }
+  .ch.focus .reading {
+    padding: 96px 40px 120px;
+    grid-template-columns: 200px 1fr 200px;
+  }
+
+  /* Left gutter */
+  .ch .gutter-l { position: relative; }
+  .ch .gutter-l .stick {
+    position: sticky;
+    top: 96px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ch .gutter-l .stick .toc {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    color: var(--ink-2);
+  }
+  .ch .gutter-l .stick .toc a {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    cursor: pointer;
+  }
+  .ch .gutter-l .stick .toc a .n { color: var(--ink-3); width: 18px; }
+  .ch .gutter-l .stick .toc a.active .n,
+  .ch .gutter-l .stick .toc a.active { color: var(--accent); }
+
+  /* Right gutter */
+  .ch .gutter-r {
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  /* ── Prose ── */
+  .ch .prose {
+    max-width: 62ch;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.62;
+    color: var(--ink-1);
+    letter-spacing: -0.005em;
+    text-wrap: pretty;
+  }
+  .ch.focus .prose {
+    max-width: 64ch;
+    font-size: 19px;
+    line-height: 1.7;
+  }
+  .ch .prose p + p { margin-top: 1.05em; }
+
+  /* Section eyebrow + rule */
+  .ch .prose .sec-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: baseline;
+    margin: 88px 0 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .ch .prose .sec-head::after {
+    content: "";
+    height: 1px;
+    background: var(--rule);
+    align-self: center;
+  }
+  .ch .prose .sec-head:first-child { margin-top: 0; }
+  .ch.focus .prose .sec-head { margin: 104px 0 32px; color: var(--accent); }
+  .ch.focus .prose .sec-head:first-child { margin-top: 0; }
+
+  /* Section title (h3 → h2 via SectionTitle component) */
+  .ch .prose h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink-1);
+    margin: 0 0 22px;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .ch.focus .prose h2 {
+    font-weight: 400;
+    font-size: 36px;
+    letter-spacing: -0.025em;
+  }
+
+  /* Lede paragraph (first p after #lede section head) */
+  .ch.focus .prose #lede + p {
+    font-size: 23px;
+    line-height: 1.5;
+    color: var(--ink-1);
+    margin-top: 4px;
+  }
+  .ch.focus .prose #lede + p::first-letter {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 4.6em;
+    line-height: 0.86;
+    float: left;
+    padding: 6px 10px 0 0;
+    color: var(--ink-1);
+    letter-spacing: -0.04em;
+  }
+
+  /* Pull quotes */
+  .ch .prose .pull {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.28;
+    letter-spacing: -0.018em;
+    color: var(--ink-1);
+    margin: 36px 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    max-width: 32ch;
+  }
+
+  /* blockquote fallback */
+  .ch .prose blockquote {
+    margin: 28px 0;
+    padding: 0 0 0 22px;
+    border-left: 2px solid var(--accent);
+    font-style: normal;
+    color: var(--ink-2);
+    font-size: 19px;
+    line-height: 1.55;
+  }
+
+  /* ── Figure wrap + diagram ── */
+  .figure-wrap {
+    margin: 56px -120px;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .ch.focus .figure-wrap { margin: 72px -160px; }
+  .figure-wrap .fig-cap {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 22px;
+  }
+  .figure-wrap .fig-cap .figno { color: var(--accent); }
+  .figure-wrap .fig-cap .name { color: var(--ink-1); }
+
+  .scroll-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+  }
+  .scroll-hint .bar { width: 22px; height: 1px; background: var(--ink-3); }
+
+  .diagram {
+    position: relative;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+    min-height: 360px;
+  }
+  .diagram .layer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--rule-soft);
+    padding-right: 18px;
+  }
+  .diagram .layer-list .row {
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 0;
+    color: var(--ink-3);
+    border-bottom: 1px dashed var(--rule-soft);
+    cursor: pointer;
+    transition: color 220ms ease;
+  }
+  .diagram .layer-list .row:last-child { border-bottom: 0; }
+  .diagram .layer-list .row .n { color: var(--ink-3); }
+  .diagram .layer-list .row.on { color: var(--ink-1); }
+  .diagram .layer-list .row.on .n { color: var(--accent); }
+  .diagram .layer-list .row .tick {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink-3);
+    opacity: 0.4;
+  }
+  .diagram .layer-list .row.on .tick { background: var(--accent); opacity: 1; }
+  .diagram .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    align-items: stretch;
+  }
+  .diagram .col {
+    position: relative;
+    padding: 14px 16px 18px;
+    border-left: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+  }
+  .diagram .col:first-child { border-left: 0; }
+  .diagram .col .col-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .diagram .col.on .col-label { color: var(--accent); }
+  .diagram .col .nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 460ms ease, transform 460ms ease;
+  }
+  .diagram .col.on .nodes { opacity: 1; transform: translateY(0); }
+  .diagram .col .node {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    color: var(--ink-1);
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 8px 10px;
+    border-radius: 2px;
+  }
+  .diagram .col .node.muted { color: var(--ink-2); background: transparent; border-style: dashed; }
+  .diagram .col .node.accent { border-color: var(--accent); color: var(--accent); }
+  .diagram .col::after {
+    content: "";
+    position: absolute;
+    right: -7px;
+    top: 36px;
+    width: 14px;
+    height: 1px;
+    background: var(--rule);
+  }
+  .diagram .col:last-child::after { display: none; }
+  .diagram .col.on::after { background: var(--accent); }
+  .diagram .progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 360ms ease;
+  }
+
+  /* ── Artifacts ── */
+  .ch .artifacts {
+    padding: 64px 40px 80px;
+    border-top: 1px solid var(--rule);
+  }
+  .ch.focus .artifacts { padding: 88px 40px 96px; }
+  .ch .artifacts .a-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 14px;
+  }
+  .ch .artifacts .a-head .n { color: var(--accent); }
+  .ch .artifacts .ledger {
+    display: grid;
+    grid-template-columns: 80px 1.4fr 1fr 1fr 90px;
+    gap: 0;
+  }
+  .ch .artifacts .ledger .row { display: contents; }
+  .ch .artifacts .ledger .cell {
+    padding: 18px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--display);
+    font-size: 15px;
+    color: var(--ink-1);
+  }
+  .ch .artifacts .ledger .row:last-child .cell { border-bottom: 0; }
+  .ch .artifacts .ledger .cell.num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+  .ch .artifacts .ledger .cell.tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .ch .artifacts .ledger .cell.meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.04em;
+    text-align: right;
+  }
+
+  /* ── Prev / Next endcap ── */
+  .ch .endcap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+  }
+  .ch.focus .endcap { background: rgba(255, 255, 255, 0.4); }
+  .ch .endcap .cell {
+    padding: 40px;
+    border-right: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 240ms ease;
+  }
+  .ch .endcap .cell:hover { background: rgba(255, 255, 255, 0.45); }
+  .ch .endcap .cell:last-child { border-right: 0; }
+  .ch .endcap .cell .dir {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .ch .endcap .cell .ttl {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink-1);
+    max-width: 16ch;
+  }
+  .ch .endcap .cell .meta-line { color: var(--ink-2); }
+  .ch .endcap .cell.next { text-align: right; align-items: flex-end; }
+
+  /* ── Footer ── */
+  .ch .footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 24px 40px 28px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+  .ch .footer .links { display: flex; gap: 18px; }
+  .ch .footer .links a { color: var(--accent); }
+
+  /* ── Mobile ── */
+  @media (max-width: 767px) {
+    .ch.focus .topbar { padding: 12px 22px; }
+    .ch .topbar .left { display: none; }
+    .ch .crumb { padding: 14px 22px 0; font-size: 10.5px; }
+    .ch .header,
+    .ch.focus .header { padding: 22px 22px 28px; }
+    .ch .header h1 { max-width: 100%; font-size: clamp(38px, 9vw, 64px); }
+    .ch .header .header-grid { grid-template-columns: 1fr; gap: 22px; }
+    .ch .outcomes { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule-soft); padding-top: 18px; }
+    .ch.focus .reading-rule { margin: 0 22px; }
+    .ch .reading,
+    .ch.focus .reading { padding: 32px 22px 48px; grid-template-columns: 1fr; gap: 0; }
+    .ch .gutter-l,
+    .ch .gutter-r { display: none; }
+    .ch .prose,
+    .ch.focus .prose { font-size: 17px; line-height: 1.68; }
+    .ch.focus .prose .sec-head { margin: 48px 0 16px; }
+    .ch.focus .prose .sec-head:first-child { margin-top: 0; }
+    .ch .prose h2 { font-size: 24px; }
+    .ch.focus .prose #lede + p { font-size: 19px; }
+    .figure-wrap,
+    .ch.focus .figure-wrap { margin: 28px -22px; padding: 22px 22px 0; }
+    .figure-wrap .fig-cap { grid-template-columns: auto 1fr; }
+    .scroll-hint { display: none; }
+    .diagram { grid-template-columns: 1fr; min-height: auto; padding: 18px; gap: 16px; }
+    .diagram .layer-list {
+      border-right: 0;
+      padding-right: 0;
+      border-bottom: 1px solid var(--rule-soft);
+      padding-bottom: 14px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .diagram .layer-list .row {
+      grid-template-columns: auto auto;
+      padding: 8px 0;
+      border-bottom: 0;
+    }
+    .diagram .layer-list .row .tick { display: none; }
+    .diagram .stage { grid-template-columns: 1fr; }
+    .diagram .col { min-height: auto; border-left: 0; border-top: 1px solid var(--rule-soft); padding: 12px 0; }
+    .diagram .col:first-child { border-top: 0; }
+    .diagram .col::after { display: none; }
+    .ch .artifacts { padding: 32px 22px 48px; }
+    .ch .artifacts .ledger { grid-template-columns: 56px 1fr 1fr; }
+    .ch .artifacts .ledger .cell.meta { display: none; }
+    .ch .endcap { grid-template-columns: 1fr; }
+    .ch .endcap .cell { padding: 24px 22px; border-right: 0; border-bottom: 1px solid var(--rule-soft); }
+    .ch .endcap .cell:last-child { border-bottom: 0; }
+    .ch .endcap .cell.next { text-align: left; align-items: flex-start; }
+    .ch .footer { padding: 18px 22px 22px; grid-template-columns: 1fr; gap: 12px; }
+  }
+</style>

@@ -10,7 +10,7 @@ export const workItems = [
   },
   {
     n: "02",
-    title: "AI Production Systems Design",
+    title: "AI Production Systems",
     tag: "AI · Automation",
     metric: "82% faster",
     year: "2024-25",

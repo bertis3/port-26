@@ -1,0 +1,128 @@
+---
+number: "02"
+title: Performance-Informed Creative Systems
+category: AI Production Systems · Creative Operations
+era: Rooftop Digital, 2024–2025
+methods:
+  - System design
+  - Code-as-creative
+  - Performance feedback loops
+  - Governed generation
+outcomes:
+  - num: Up to 82%
+    lbl: Reduction in production time
+  - num: Above avg.
+    lbl: Campaign KPIs on shipped creative
+prev:
+  num: "01"
+  title: Form Optimization
+  meta: CRO · 2010–25
+next:
+  num: "03"
+  title: Usability Research at Scale
+  meta: ResearchOps · 2014–20
+artifacts:
+  - num: F-01
+    title: Governed generation framework
+    tag: Code-output pipeline
+    meta: Constraints applied at output
+    year: "2024"
+  - num: F-02
+    title: Performance ingestion layer
+    tag: Pipeline component
+    meta: Per-asset performance signal
+    year: "2024"
+  - num: F-03
+    title: Asset and code parser
+    tag: Pipeline component
+    meta: Existing library as foundation
+    year: "2024"
+  - num: F-04
+    title: Cross-functional consolidation
+    tag: Process artifact
+    meta: One prompt, five teams
+    year: "2024"
+  - num: F-05
+    title: Human-in-the-loop boundaries
+    tag: Process artifact
+    meta: Defined review checkpoints
+    year: "2025"
+---
+
+import Pullquote from '../../components/mdx/Pullquote';
+import SystemDiagram from '../../components/chapters/SystemDiagram';
+
+export const diagramLayers = [
+  {
+    id: "ingest",
+    name: "Ingestion",
+    sub: "Performance signal in",
+    nodes: ["Individual asset results", "Campaign performance context", "Relative performance signal", "Historical sends"],
+  },
+  {
+    id: "parse",
+    name: "Parser",
+    sub: "Existing library as foundation",
+    nodes: ["Existing assets", "Rendered code", "Established patterns", "Team standards"],
+  },
+  {
+    id: "constraints",
+    name: "Constraints",
+    sub: "Encoded and enforced",
+    nodes: ["Brand guidelines", "Advertiser rules", "Coding standards", "Compliance requirements"],
+  },
+  {
+    id: "gen",
+    name: "Output",
+    sub: "Reviewed before it ships",
+    nodes: ["Governed code", "New asset output", "Team review", "Corrections narrowed over time"],
+  },
+];
+
+## §01 · Lede
+
+By 2024, most companies were determined to adopt AI and figure out where it fit and how to use it. The work: review the full creative pipeline — conception to shipment — and find where AI could improve performance and throughput.
+
+The operation was high-volume and constraint-heavy. Every asset had to satisfy requirements across five functions — analytics, copy, code, QA, compliance — while drawing on brand guidelines, per-advertiser rules, coding guidelines, and performance data. The question was how much of that work a well-designed system could absorb upstream.
+
+Structured information, consistent constraints, measurable outcomes — the conditions a governed system is built for.
+
+## §02 · Hypothesis
+
+### Three hypotheses.
+
+Three hypotheses shaped this build.
+
+First, that AI could surface patterns in top-performing work — patterns in copy, design treatments, content choices — perhaps even those that get buried under production volume. Second, that given enough examples across the performance spectrum, paired with their associated data, the system would consistently produce work above the team's average — and that at scale, those gains would compound. Third, that the time recovered would give the team room for higher-order work: research, skill-building, the next experiment instead of the next deliverable.
+
+<Pullquote>Given enough examples across the performance spectrum, the system would consistently produce work above the team's average — and that at scale, those gains would compound.</Pullquote>
+
+## §03 · The Work
+
+### Narrow before broad. Instrumented at every step.
+
+The build started narrow with a single campaign. The first tests were straightforward: screenshots of top performers in, new iterations as output — the question was whether the system could match what it was seeing. Once those held, actual rendered files replaced the screenshots, which surfaced the main technical constraint: HTML email's coding environment is non-standard — the model defaults to modern web techniques that don't render reliably in it, inbox providers each handle things differently, and the company's mailing system added its own structural requirements on top. Performance data came next — the test was whether the model was correctly differentiating high-performing patterns from low-performing ones. Once that signal held and governance requirements were covered, we shipped — results watched closely. When performance held, we expanded across campaigns and into additional verticals. From there, the system rolled out to the broader team.
+
+The architecture had four layers. An ingestion layer pulled performance data from individual assets within a campaign, establishing relative performance across them. A parser read the existing creative library — assets and the rendered code behind them — so new outputs built on the team's existing work. A constraints layer encoded brand guidelines, per-advertiser rules, coding standards, and compliance requirements as machine-readable rules applied at generation time. An output layer produced new assets as governed code, reviewed by the team before anything shipped — required corrections narrowed as the system matured.
+
+<SystemDiagram
+  caption="Four-layer creative pipeline · Rooftop, 2024"
+  layers={diagramLayers}
+  client:visible
+/>
+
+The decisions that mattered most were about boundaries: what the system could change and what it had to leave alone. Each layer could be updated independently — changes to one didn't cascade to the others.
+
+A single prompt now covered work previously split across analytics, copy, code, QA, and compliance. The outcome: up to 82% reduction in production time, with the majority of remaining effort in review. Shipped work performed above the team's existing KPI averages.
+
+## §04 · The Lesson
+
+### What generalized.
+
+What the build clarified: in a production-creative pipeline, AI tends to be as useful as the governance around it. Dialing in the constraints layer was the hardest part; it was also what gave the system its value. Once the rules were encoded in a form the system could honor — brand guidelines, advertiser rules, coding standards, compliance requirements — the outputs became trustworthy.
+
+<Pullquote>Dialing in the constraints layer was the hardest part; it was also what gave the system its value.</Pullquote>
+
+On the human side of the build: there was real concern across the team about what AI adoption would mean for their roles — a reasonable concern at the time, and still one. What we found, at that stage: positions weren't disappearing, but responsibilities were shifting. More time in review, less in production. Work that previously touched five separate teams was now consolidated upstream. The hours recovered went toward work that production pressure had been crowding out — research, skill-building, maintaining documentation, and other work that compounds over time.
+
+Shortly after broader adoption, a series of inbox provider changes — years in the making — reached a tipping point that significantly impacted deliverability across the industry. Substantial restructuring followed across the company, and I was among those affected. The system didn't get to demonstrate its full potential at scale — the roadmap included live data integration from internal systems and autonomous operation across campaigns on varying cadences. The architecture holds regardless; its pillars were simultaneously being applied to build other tools for similar tasks at a smaller, more individual scale. The constraints layer, the performance loop, and the consolidation model work for any pipeline that fits the shape.
