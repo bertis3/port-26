@@ -1,4 +1,4 @@
-export const navLinks = ["Work", "Method", "About", "Contact"] as const;
+export const navLinks = ["Work", "Experience"] as const;
 
 export const workItems = [
   {
