@@ -14,13 +14,15 @@ export const workItems = [
     tag: "AI · Automation",
     metric: "82% faster",
     year: "2024-25",
+    slug: "ai-production-systems",
   },
   {
     n: "03",
     title: "Usability Research",
-    tag: "ResearchOps",
+    tag: "User Research",
     metric: "personas",
-    year: "2014–20",
+    year: "2017",
+    slug: "usability-research",
   },
   {
     n: "04",

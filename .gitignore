@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # personal notes, todos, and reference files
 _*
+
+# Claude session instructions
+CLAUDE.md

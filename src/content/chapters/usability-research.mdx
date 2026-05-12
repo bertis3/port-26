@@ -1,0 +1,122 @@
+---
+number: "03"
+title: Finding the Person in the Data
+category: Usability Research · Personas
+era: classesusa.com, 2017
+methods:
+  - Funnel analytics
+  - Audience segmentation
+  - Persona development
+  - Ideation workshops
+  - A/B and multivariate testing
+outcomes:
+  - num: "4"
+    lbl: Research-grounded personas
+  - num: "3"
+    lbl: Testing tracks
+prev:
+  num: "02"
+  title: AI Production Systems Design
+  meta: AI · Automation · 2024–25
+next:
+  num: "04"
+  title: Creative Experimentation at Scale
+  meta: Creative · 2020–25
+artifacts:
+  - num: R-01
+    title: Audience persona cards
+    tag: Research artifact
+    meta: Four defined segments
+    year: "2017"
+  - num: R-02
+    title: Segmentation analysis
+    tag: Funnel analytics
+    meta: Tableau, demographic lenses
+    year: "2017"
+  - num: R-03
+    title: Testing roadmap
+    tag: Experimentation strategy
+    meta: Messaging and design experiments
+    year: "2017"
+---
+
+import Pullquote from '../../components/mdx/Pullquote';
+import SystemDiagram from '../../components/chapters/SystemDiagram';
+import PersonaCarousel from '../../components/chapters/PersonaCarousel';
+
+export const diagramLayers = [
+  {
+    id: "signal",
+    name: "Signal",
+    sub: "Funnel responses in aggregate",
+    nodes: ["20–25 question funnel", "Demographic lenses", "Behavioral patterns", "Tableau analysis"],
+  },
+  {
+    id: "segments",
+    name: "Segments",
+    sub: "Filtered for viability",
+    nodes: ["Statistical significance threshold", "Segment distinctiveness", "Experiment potential", "Analytics validation"],
+  },
+  {
+    id: "personas",
+    name: "Personas",
+    sub: "Segments as individuals",
+    nodes: ["Demographic profile", "Motivations and concerns", "Decision barriers", "Life-stage context"],
+  },
+  {
+    id: "roadmap",
+    name: "Roadmap",
+    sub: "Hypotheses into experiments",
+    nodes: ["Messaging experiments", "Design experiments", "Device segmentation", "Multivariate combinations"],
+  },
+];
+
+## §01 · Lede
+
+By 2017, the inquiry pathway at classesusa.com had been tested and refined for over a decade. On a funnel that mature, the easy wins were long gone. What remained required a different kind of approach.
+
+Aggregate performance data was clear and largely consistent. Drop-off patterns were well understood. We knew how users moved through the funnel as a whole — where they stalled, how they typically answered questions, and which paths saw the most attrition.
+
+<Pullquote>On a funnel that mature, the easy wins were long gone.</Pullquote>
+
+What was less understood was whether distinct, targetable sub-segments existed within that broader population — groups defined enough by shared characteristics to warrant separate messaging, separate hypotheses, and their own experimental track.
+
+The remit: surface those segments, characterize what drove and stopped each, and build a research-grounded testing roadmap the Consumer Experience team and marketing could work from.
+
+## §02 · Hypothesis
+
+The larger segments were understood. Broad groupings had shaped the testing program for years — they were reliable enough to work from, but too blunt to generate new experimental directions on their own.
+
+The question was whether the data held anything more actionable — whether smaller sub-segments could be identified that were distinct enough to characterize, and whether those could be combined into groups viable enough to test against.
+
+No strong preconceptions about what those segments would look like. The funnel itself — 20 to 25 questions of demographic and behavioral signal — was the starting point. If meaningful structure was there, it would show up in the data.
+
+## §03 · The Work
+
+The search started in the data. Responses were filtered through a series of source and demographic lenses in Tableau — age, education level, intent signals, and life-stage indicators — to look for patterns that held across enough users to be statistically meaningful. The goal wasn't to confirm the broad groupings already in use, but to surface what they couldn't.
+
+<PersonaCarousel client:visible />
+
+Four segments emerged that cleared both bars — distinct enough to design experiments around, and large enough to reach statistical significance in a practical testing window. Each was developed into a persona — a working profile covering demographics, motivations, sources, decision barriers, and life-stage context. Designers across the team each handled different verticals independently. A structured cross-vertical review followed — personas compared, patterns pressure-tested against other contexts, and blind spots surfaced that isolated analysis would have missed.
+
+<SystemDiagram
+  caption="Audience research pipeline · classesusa.com, 2017"
+  layers={diagramLayers}
+  client:visible
+/>
+
+The segments and personas fed a series of ideations — sessions that ranged from structured techniques like brainstorming and brainwriting to open working discussions and reviews, depending on what the stage required. Core contributors were UX, product, and analytics; additional perspectives came from marketing, development, QA, and others depending on the session. The breadth of input was one of the more valuable aspects of the process — areas of the experience that read one way from a UX lens could look quite different from an analytics or dev perspective.
+
+From those sessions, a testing roadmap took shape across three tracks: targeted A/B tests built around specific messaging points surfaced by the research; design experiments addressing layout and visual treatment; and a multivariate test combining multiple messaging changes with design variations — a broad-spectrum test to find the highest-performing combination across the full hypothesis set.
+
+## §04 · The Lesson
+
+What it opened up, more than anything, was a different way of thinking about the audience — smaller segments viewed not just individually but in relation to each other, examined for combinations that might be viable to target, or crossovers that revealed shared characteristics across otherwise distinct groups. A potential matrix perspective, sitting alongside the hierarchical one that had always been there.
+
+There's a tendency in conversion work to reduce users to behavioral signals — drop-off rates, completion percentages, and response distributions. Building personas pushed against that. Assigning names, life contexts, motivations, and decision barriers to what had been aggregate data shifted the frame. The visitors became specific people with specific situations, and that specificity carried into how hypotheses for the experiments got framed.
+
+The persona format reinforced that shift in a practical way. When ideating around messaging, having a specific individual in mind — their circumstances, what they were weighing, what might give them pause — produced more grounded hypotheses than approaching from "this segment tends to..." The granularity came naturally when thinking about a person.
+
+<Pullquote>The visitors became specific people with specific situations.</Pullquote>
+
+The roadmap fed into a testing program segmented by device and split across landing page and funnel — mobile carrying the highest volume, desktop running a comparable cadence, tablet on longer cycles given lower traffic. Wins were defined accordingly — modest conversion lifts held to high confidence thresholds, the standard for a funnel with nothing easy left. A few tests cleared that bar; the multivariate test — combining messaging and design variables across the combined hypothesis set — identified the highest-performing format, consistent with the outcomes noted above.

@@ -13,7 +13,7 @@ import { workItems } from '../data/content';
 
     {workItems.map(w => (
       <a
-        href={w.n === '02' ? '/work/ai-production-systems' : '#'}
+        href={'slug' in w ? `/work/${w.slug}` : '#'}
         class="block py-3 row-border hover:bg-black/5 transition-colors -mx-2 px-2 rounded-[2px]"
       >
         <!-- Desktop row: all inline -->
