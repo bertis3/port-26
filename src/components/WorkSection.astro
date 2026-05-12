@@ -8,7 +8,7 @@ import { workItems } from '../data/content';
 
     <div class="flex justify-between items-baseline mb-5">
       <Label>Selected Work</Label>
-      <span class="font-mono text-[0.625rem] text-ink-light">5 projects</span>
+      <span class="font-mono text-[0.625rem] text-ink-light">{workItems.length} projects</span>
     </div>
 
     {workItems.map(w => (

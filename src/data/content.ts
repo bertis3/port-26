@@ -24,20 +24,6 @@ export const workItems = [
     year: "2017",
     slug: "usability-research",
   },
-  {
-    n: "04",
-    title: "Creative Experimentation at Scale",
-    tag: "Creative",
-    metric: "200+ brands",
-    year: "2020–25",
-  },
-  {
-    n: "05",
-    title: "Interactive Experience Platform",
-    tag: "Interaction · Animation",
-    metric: "Global brands",
-    year: "2007–10",
-  },
 ] as const;
 
 export const processChain = [
