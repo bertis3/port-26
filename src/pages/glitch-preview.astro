@@ -1,0 +1,116 @@
+---
+import HeroGlitch from '../components/HeroGlitch';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HeroGlitch Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Space+Grotesk:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(170deg, #f6f4f0 0%, #eceae5 55%, #e0ddd7 100%);
+      min-height: 100dvh;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #18170f;
+    }
+
+    .hero { border-bottom: 1px solid rgba(0,0,0,0.09); overflow: hidden; }
+    .hero-inner { max-width: 72rem; margin: 0 auto; display: flex; }
+
+    .hero-text { flex: 1; padding: 6rem 3rem 6rem 2rem; }
+    .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.625rem; letter-spacing: 0.1em; color: #636160; margin-bottom: 0.75rem;
+    }
+    .name-solid {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: clamp(64px, 12vw, 100px); line-height: 0.88;
+      letter-spacing: -0.02em; color: #18170f; text-transform: uppercase;
+    }
+    .name-outline {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: clamp(64px, 12vw, 100px); line-height: 0.88;
+      letter-spacing: -0.02em; color: transparent;
+      -webkit-text-stroke: 2px #18170f; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .descriptor { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 1rem; }
+    .descriptor-rule { width: 22px; height: 1.5px; background: #1d4ed8; flex-shrink: 0; }
+    .descriptor-text {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+      color: #52504a; letter-spacing: 0.1em;
+    }
+    .bio { font-size: 0.875rem; color: #52504a; line-height: 1.7; max-width: 420px; margin-bottom: 1.25rem; }
+    .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: #1d4ed8; color: white; padding: 9px 20px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.625rem;
+      letter-spacing: 0.08em; border-radius: 9999px; text-decoration: none;
+    }
+    .btn-secondary {
+      color: #52504a; padding: 8px 20px; font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.625rem; letter-spacing: 0.08em; border-radius: 9999px;
+      border: 1px solid rgba(0,0,0,0.09); text-decoration: none;
+    }
+
+    .hero-photo { display: none; flex-direction: column; justify-content: flex-end; flex-shrink: 0; }
+    @media (min-width: 640px) { .hero-photo { display: flex; } }
+
+    .photo-wrap {
+      position: relative; width: 481px; height: 629px;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .photo-wrap img {
+      display: block; position: relative; z-index: 10;
+      transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;
+    }
+
+    .note {
+      text-align: center; padding: 1.5rem;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+      color: #9a9690; letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-inner">
+
+      <div class="hero-text">
+        <p class="label">Bertis &#8220;Gene&#8221; Davis</p>
+        <div class="name-solid">Gene</div>
+        <div class="name-outline">Davis</div>
+        <div class="descriptor">
+          <div class="descriptor-rule"></div>
+          <span class="descriptor-text">EXPERIMENTATION SPECIALIST · UX · AI SYSTEMS</span>
+        </div>
+        <p class="bio">
+          Senior experimentation and conversion optimization leader with 20+ years
+          bridging UX, data, and engineering. Designing disciplined programs
+          that turn hypotheses into measurable growth.
+        </p>
+        <div class="ctas">
+          <a href="#" class="btn-primary">VIEW WORK →</a>
+          <a href="#" class="btn-secondary">RESUME ↓</a>
+        </div>
+      </div>
+
+      <div class="hero-photo">
+        <div class="photo-wrap">
+          <HeroGlitch client:load />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <p class="note">PREVIEW — /glitch-preview — HeroGlitch.tsx · glitch fires every 4–8s · delete when done</p>
+
+</body>
+</html>
