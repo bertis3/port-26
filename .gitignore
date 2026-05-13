@@ -28,3 +28,6 @@ _*
 
 # Claude session instructions
 CLAUDE.md
+
+# Local preview pages (dev-only, not deployed)
+src/pages/grid-preview*.astro

@@ -1,4 +1,5 @@
 ---
+import HeroGrid from './HeroGrid';
 ---
 
 <section class="section-border overflow-hidden">
@@ -65,14 +66,17 @@
 
   </div>
 
-  <!-- Desktop photo: flex sibling, bottom-anchored, natural dimensions -->
+  <!-- Desktop photo: grid lives inside the photo-sized wrapper -->
   <div class="hidden sm:flex flex-col justify-end flex-shrink-0">
-    <img
-      src="/hero_1b_c.png"
-      alt="Gene Davis"
-      class="block"
-      style="transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
-    />
+    <div style="position: relative; width: 481px; height: 629px; overflow: hidden; flex-shrink: 0;">
+      <HeroGrid client:load />
+      <img
+        src="/hero_1b_c.png"
+        alt="Gene Davis"
+        class="block"
+        style="position: relative; z-index: 10; transform: scaleX(-1); filter: contrast(1.05) brightness(0.97); opacity: 0.7;"
+      />
+    </div>
   </div>
 
   </div>
