@@ -56,7 +56,7 @@ export const skills = [
 
 export const stats = [
   { value: "20+", label: "years" },
-  { value: "10,000+", label: "structured tests" },
+  { value: "10,000+", label: "a/b and multivariate tests" },
   { value: "up to 82%", label: "process time reduction" },
   { value: "200+", label: "brands" },
 ] as const;
