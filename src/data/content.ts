@@ -3,10 +3,11 @@ export const navLinks = ["Work", "Experience"] as const;
 export const workItems = [
   {
     n: "01",
-    title: "Form Optimization",
+    title: "Conversion Experimentation",
     tag: "CRO · RPV · A/B · Multivariate",
-    metric: "1,000+ tests",
-    year: "2010-25",
+    metric: "10,000+ tests",
+    year: "2010-19",
+    slug: "conversion-experimentation",
   },
   {
     n: "02",
@@ -18,11 +19,11 @@ export const workItems = [
   },
   {
     n: "03",
-    title: "Usability Research",
+    title: "UX Research",
     tag: "User Research",
     metric: "personas",
     year: "2017",
-    slug: "usability-research",
+    slug: "ux-research",
   },
 ] as const;
 
@@ -55,7 +56,7 @@ export const skills = [
 
 export const stats = [
   { value: "20+", label: "years" },
-  { value: "1,000+", label: "structured tests" },
+  { value: "10,000+", label: "structured tests" },
   { value: "up to 82%", label: "process time reduction" },
   { value: "200+", label: "brands" },
 ] as const;

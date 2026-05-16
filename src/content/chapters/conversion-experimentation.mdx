@@ -1,0 +1,159 @@
+---
+number: "01"
+title: The Discipline of Small Wins
+category: Experimentation · CRO
+era: Core Digital Media, 2010–2019
+methods:
+  - A/B and multivariate testing
+  - Conversion rate optimization
+  - Segmentation strategy
+  - Cross-functional ideation
+  - Statistical analysis
+outcomes:
+  - num: 10,000+
+    lbl: A/B and multivariate tests
+  - num: 20+
+    lbl: Active testing segments
+prev:
+  num: "03"
+  title: Finding the Person in the Data
+  meta: UX Research · 2017
+  slug: ux-research
+next:
+  num: "02"
+  title: Performance-Informed Creative Systems
+  meta: AI · 2024–25
+  slug: ai-production-systems
+artifacts:
+  - num: F-01
+    title: Sample size calculator
+    tag: Testing methodology
+    meta: Per-segment calibration
+    year: "2015"
+  - num: F-02
+    title: RPV wins log
+    tag: Test record
+    meta: Win threshold documentation
+    year: "2015"
+  - num: F-03
+    title: Form fragmentation matrix
+    tag: UX artifact
+    meta: One-at-a-time question architecture
+    year: "2014"
+  - num: F-04
+    title: Turndown threshold doc
+    tag: Process artifact
+    meta: Early-exit decision criteria
+    year: "2014"
+  - num: F-05
+    title: Mobile LP samples
+    tag: Design artifact
+    meta: Control and challenger variants
+    year: "2014"
+---
+
+import Pullquote from '../../components/mdx/Pullquote';
+import SystemDiagram from '../../components/chapters/SystemDiagram';
+
+export const diagramLayers = [
+  {
+    id: "plan",
+    name: "Plan",
+    sub: "Roadmap held weeks ahead of queue",
+    nodes: [
+      "Quarterly roadmap",
+      "Cross-functional ideation",
+      "Funnel data by segment",
+      "Buffer for disruption",
+    ],
+  },
+  {
+    id: "build",
+    name: "Build",
+    sub: "Design, engineering, and QA",
+    nodes: [
+      "Landing page design",
+      "Front-end build",
+      "Back-end engineering",
+      "QA and instrumentation",
+    ],
+  },
+  {
+    id: "run",
+    name: "Run",
+    sub: "Instrumented from launch",
+    nodes: [
+      "Launch by segment",
+      "Stat-sig win detection",
+      "Sample size per segment",
+      "RPV-loss thresholds",
+    ],
+  },
+  {
+    id: "resolve",
+    name: "Resolve",
+    sub: "Acted on only at the threshold",
+    nodes: [
+      "Win at confidence threshold",
+      "Rollout across segmentation map",
+      "Early pull for underperformers",
+      "Feed back to roadmap",
+    ],
+  },
+];
+
+## §01 · Lede
+
+Across nearly a decade and over 10,000 A/B and multivariate tests, the practice was conversion experimentation on mature funnels. The operating model was honed over the years into a consistent shape: a quarterly roadmap, regular testing cadence, and cross-functional ideation drawing from product, analytics, marketing, and other teams. Education was the primary focus.
+
+The Education work centered on classesusa.com, an online portal helping prospective students find degree and certificate programs. The inquiry pathway was 20 to 25 questions deep depending on path. Each segment — defined by device and traffic source — ran separate landing page and funnel testing tracks. Mobile carried the most volume. At peak, dozens of challengers ran concurrently across the segmentation map.
+
+<Pullquote>At peak, dozens of challengers ran concurrently across the segmentation map.</Pullquote>
+
+The remit covered the full test cycle: ideation through design, build, launch, monitoring, and rollout. Wins were defined in advance and held without exception.
+
+## §02 · Hypothesis
+
+### What the practice was built on.
+
+Three operating beliefs anchored the work.
+
+First, disciplined small wins compound into big ones. The program ran on the assumption that ~5% lifts, held to confidence and captured across a sustained testing cadence, would produce more cumulative lift than chasing big-swing tests. The math favored cadence over swing.
+
+Second, on mature funnels the leverage tends to sit in messaging and segmentation more than design. Big-bang redesigns rarely move the number; specific copy and audience-specific framing repeatedly do.
+
+Third, the segmentation map needs its own testing tracks. Different segments arrive with different circumstances and intents — what lands with one may not land the same way with another. The program was built around running separate tracks within each segment.
+
+These beliefs determined the operating shape. Win thresholds set in advance at 90% confidence — Fisher for landing pages, Bayes for funnels. Sample sizes calibrated per segment to detect a lift at that confidence within a workable testing window — weekly cadence on the high-volume segments, longer cycles on the smaller ones. Wins rolled across the segmentation map where applicable, once they cleared the bar.
+
+## §03 · The Work
+
+### Inside the cycle.
+
+The cycle ran on a quarterly roadmap with regular ideation sessions drawing from across the organization — product, analytics, marketing, and others. Ideas were drawn from the funnel data within each segment — what funnel position, what kind of change. The roadmap held a few weeks of buffer ahead of the build queue, which absorbed the inevitable side projects, holidays, and urgent asks and kept the testing cadence intact.
+
+Design and front-end build came from my desk for most of these tests — delivered through an in-house experimentation platform that handled variant setup and accepted HTML and CSS, with a secondary path for JS injection on more complex changes. QA and back-end engineering filled out the rest, with back-end stepping in where the platform's scope required it. Tests were instrumented for stat-sig win detection from launch, and acted on only at the threshold. Sample sizes were calibrated per segment to hit confidence within a practical testing window. Volume-tiered RPV-loss thresholds defined when to pull a challenger early — distributing that traffic across the challengers still in contention.
+
+<SystemDiagram
+  caption="Test cycle · Core Digital Media, 2010–2019"
+  layers={diagramLayers}
+  client:visible
+/>
+
+A win in one segment ran against the applicable others — each required its own confirmation before the change held. Most wins traveled that way. Periodically the work zoomed out into broader redesigns or form consolidations — collapsing separately-optimized segmented forms into a unified architecture that could perform across all of them. Those ran on longer cycles and required a different kind of rigor. The cumulative lift came from cadence: small wins, captured at confidence, repeated over time.
+
+<Pullquote>The cumulative lift came from cadence: small wins, captured at confidence, repeated over time.</Pullquote>
+
+## §04 · The Lesson
+
+### What the data taught.
+
+A decade of testing produced plenty of lessons. Three carried through with the most consistency.
+
+On mature funnels, messaging carried the strongest signal. Audience-specific framing especially moved conversion rate more often than any other lever. Layout and visual treatment, by comparison, carried less weight — aesthetic conviction tends to be a weaker signal where performance is what's being measured. For someone who came up in design, that took some accepting in the early years. The data, repeatedly, won the argument. Data doesn't lie — not often, anyway.
+
+<Pullquote>The data, repeatedly, won the argument. Data doesn't lie — not often, anyway.</Pullquote>
+
+The second lesson was methodological and economic. Front-end tests — copy, microcopy, and headlines — were fast to build and fast to roll, so wins could accumulate and be batched into a single dev rollout. Complex tests — like moving a question from the funnel up to the landing page, or adjusting matching logic — required dev and QA cycles on both ends, so the cost-of-cycles factored into planning and prioritization. Each had its place. Simple tests were efficient and could move the number on their own. Complex tests probed mechanics the front-end couldn't reach, often yielding deeper insight.
+
+The third was about discipline under pressure. There's always pressure to call wins early — partial reads, close numbers, or when bonus cycles or recognition optics are in play. Arguments tend to take a few forms — "if it's that close, does it really matter?" or "the trend's clear, let's call it." Or the perennial: "we could really use another win this quarter." On any single call, probably not. But the methodology only earns its edge if the threshold is held without exception. Make one exception and the system erodes. The cost may be invisible on any single test, but it surfaces in the cumulative numbers.
