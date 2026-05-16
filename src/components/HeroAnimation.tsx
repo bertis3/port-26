@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import HeroGrid from "./HeroGrid";
-import HeroHelix from "./HeroHelix";
+// HeroHelix is available but not in the active pool — restore by adding it back to VARIANT_COUNT and the BgComponent logic below
+// import HeroHelix from "./HeroHelix";
 import HeroGlitch from "./HeroGlitch";
 
 const SESSION_KEY = "hero-animation-variant";
-const VARIANT_COUNT = 3;
+const VARIANT_COUNT = 2; // 0 = Grid, 1 = Glitch
 
 export default function HeroAnimation() {
   const [idx, setIdx] = useState<number | null>(null);
@@ -25,13 +26,12 @@ export default function HeroAnimation() {
   if (idx === null) return null;
 
   // Glitch renders its own image internally at opacity 0.7
-  if (idx === 2) return <HeroGlitch />;
+  if (idx === 1) return <HeroGlitch />;
 
-  // Grid (0) and Helix (1) are backgrounds — they sit behind the image
-  const BgComponent = idx === 0 ? HeroGrid : HeroHelix;
+  // Grid (0) is a background — sits behind the image
   return (
     <>
-      <BgComponent />
+      <HeroGrid />
       <img
         src="/hero_1b_c.png"
         alt="Gene Davis"
