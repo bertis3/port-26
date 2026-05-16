@@ -16,7 +16,7 @@ const navHrefs: Record<string, string> = {
 {stickyLight ? (
   <div class="topbar">
     <span class="left">Santa Monica, CA</span>
-    <span class="center">GENE DAVIS</span>
+    <a href="/" class="center">GENE DAVIS</a>
     <nav class="right">
       {navLinks.map(link => (
         <a href={navHrefs[link] ?? '#'} class={link === 'Work' ? 'current' : ''}>
@@ -30,7 +30,7 @@ const navHrefs: Record<string, string> = {
   <nav class="section-border">
     <!-- mobile: name left, links right -->
     <div class="flex items-center justify-between sm:hidden px-6 py-4">
-      <span class="font-mono text-[0.6875rem] text-accent tracking-[0.18em]">GENE DAVIS</span>
+      <a href="/" class="font-mono text-[0.6875rem] text-accent tracking-[0.18em]">GENE DAVIS</a>
       <div class="flex gap-5">
         {navLinks.map(link => (
           <a href={navHrefs[link] ?? '#'} class="text-[11px] text-ink-mid hover:text-ink transition-colors">{link}</a>
@@ -40,7 +40,7 @@ const navHrefs: Record<string, string> = {
     <!-- desktop: 3-col grid -->
     <div class="hidden sm:grid grid-cols-[1fr_auto_1fr] items-center px-10 py-4">
       <span class="font-mono text-[0.625rem] text-ink-light tracking-[0.1em]">Santa Monica, CA</span>
-      <span class="font-mono text-[0.6875rem] text-accent tracking-[0.18em]">GENE DAVIS</span>
+      <a href="/" class="font-mono text-[0.6875rem] text-accent tracking-[0.18em]">GENE DAVIS</a>
       <div class="flex gap-6 justify-end">
         {navLinks.map(link => (
           <a href={navHrefs[link] ?? '#'} class="text-[11px] text-ink-mid hover:text-ink transition-colors">{link}</a>
