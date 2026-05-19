@@ -4,6 +4,7 @@ export const workItems = [
   {
     n: "01",
     title: "Conversion Experimentation",
+    type: "case" as const,
     tag: "CRO · RPV · A/B · Multivariate",
     metric: "10,000+ tests",
     year: "2010-19",
@@ -12,6 +13,7 @@ export const workItems = [
   {
     n: "02",
     title: "AI Production Systems",
+    type: "case" as const,
     tag: "AI · Automation",
     metric: "82% faster",
     year: "2024-25",
@@ -20,10 +22,29 @@ export const workItems = [
   {
     n: "03",
     title: "UX Research",
-    tag: "User Research",
-    metric: "personas",
+    type: "case" as const,
+    tag: "Personas",
+    metric: "3 testing tracks",
     year: "2017",
     slug: "ux-research",
+  },
+  {
+    n: "04",
+    title: "Howl Single Page Prototype",
+    type: "creative" as const,
+    tag: "Homepage · Prototype",
+    metric: "Single-page",
+    year: "2022",
+    slug: "howl-prototype",
+  },
+  {
+    n: "05",
+    title: "Boeing Epic",
+    type: "creative" as const,
+    tag: "Display · Animated",
+    metric: "~136 assets",
+    year: "2010",
+    slug: "boeing-epic-banners",
   },
 ] as const;
 

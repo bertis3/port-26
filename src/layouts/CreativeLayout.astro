@@ -1,0 +1,489 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Creative {
+  src: ImageMetadata;
+  title: string;
+  dimensions: string;
+}
+
+interface NavRef {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  number: string;
+  title: string;
+  category: string;
+  client: string;
+  year: number;
+  methods: string[];
+  singleImage: boolean;
+  creatives: Creative[];
+  prev?: NavRef;
+  next?: NavRef;
+}
+
+const { number, title, category, client, year, methods, singleImage, creatives, prev, next } = Astro.props;
+
+const hero = creatives[0];
+const rest = creatives.slice(1);
+
+const prevHref = prev?.slug ? `/work/${prev.slug}` : '/#work';
+const nextHref = next?.slug ? `/work/${next.slug}` : '/#work';
+
+function pl(index: number): string {
+  return `AS-${String(index + 1).padStart(2, '0')}`;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} — Gene Davis</title>
+    <meta name="description" content={`${category} · ${client} · ${year}`} />
+  </head>
+  <body>
+    <div class="cr">
+
+      <Nav stickyLight={true} />
+
+      <div class="crumb">
+        <a href="/#work">← Selected Work</a>
+        <span class="num">CREATIVE · {year}</span>
+      </div>
+
+      {hero && (
+        <div class="hero-creative">
+          <div class="hero-frame">
+            <Image src={hero.src} alt={hero.title} class="hero-img" />
+          </div>
+          <div class="creative-meta">
+            <span class="pl-lbl">{pl(0)}</span>
+            <span class="c-title">{hero.title}</span>
+            <span class="dims">{hero.dimensions}</span>
+          </div>
+        </div>
+      )}
+
+      <header class="header">
+        <div class="eyebrow">
+          <span class="cat">{category}</span>
+          <span class="sep">·</span>
+          <span class="sub">{client}</span>
+          <span class="sep">·</span>
+          <span class="sub">{year}</span>
+        </div>
+        <h1>{title}</h1>
+        <div class="brief">
+          <slot />
+        </div>
+        <div class="methods-block">
+          <div class="methods-lbl">Methods &amp; Tools</div>
+          <div class="methods">
+            {methods.map(m => <div class="pill">{m}</div>)}
+          </div>
+        </div>
+      </header>
+
+      {!singleImage && rest.length > 0 && (
+        <section class="contact-sheet">
+          <div class="sheet-head">
+            <span>Creatives</span>
+            <span>{creatives.length} total · including hero</span>
+          </div>
+          <div class="sheet-grid">
+            {rest.map((c, i) => (
+              <div class="sheet-cell">
+                <Image src={c.src} alt={c.title} class="sheet-img" />
+                <div class="creative-meta">
+                  <span class="pl-lbl">{pl(i + 1)}</span>
+                  <span class="c-title">{c.title}</span>
+                  <span class="dims">{c.dimensions}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="endcap">
+        {prev ? (
+          <a href={prevHref} class="cell prev">
+            <div class="dir">← Previous</div>
+            <div class="ttl">{prev.title}</div>
+          </a>
+        ) : (
+          <a href="/#work" class="cell prev">
+            <div class="dir">↑ Return to</div>
+            <div class="ttl">Selected Work</div>
+          </a>
+        )}
+        {next ? (
+          <a href={nextHref} class="cell next">
+            <div class="dir">Next →</div>
+            <div class="ttl">{next.title}</div>
+          </a>
+        ) : (
+          <a href="/#work" class="cell next">
+            <div class="dir">↑ Return to</div>
+            <div class="ttl">Selected Work</div>
+          </a>
+        )}
+      </section>
+
+      <div id="cr-lightbox" class="cr-lb" aria-modal="true" role="dialog">
+        <button class="cr-lb-close" aria-label="Close">✕</button>
+        <img class="cr-lb-img" src="" alt="" />
+      </div>
+
+      <footer class="footer">
+        <div>Gene Davis · Bertis "Gene" Davis · Santa Monica, CA</div>
+        <div class="links">
+          <a href="https://www.linkedin.com/in/bertisgenedavis/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="#">Resume ↓</a>
+        </div>
+      </footer>
+
+    </div>
+    <script>
+    const lb = document.getElementById('cr-lightbox') as HTMLElement;
+    const lbImg = lb.querySelector('.cr-lb-img') as HTMLImageElement;
+    const lbClose = lb.querySelector('.cr-lb-close') as HTMLButtonElement;
+
+    function openLightbox(src: string, alt: string) {
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll<HTMLImageElement>('.hero-img, .sheet-img').forEach(img => {
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  /* ── Token aliases ── */
+  .cr {
+    --ink-1: var(--color-ink);
+    --ink-2: var(--color-ink-mid);
+    --ink-3: var(--color-ink-faint);
+    --accent: var(--color-accent);
+    --rule: var(--color-rule);
+    --rule-soft: var(--color-rule-soft);
+    --display: var(--font-body);
+    --mono: var(--font-mono);
+  }
+
+  /* ── Base ── */
+  .cr * { box-sizing: border-box; }
+  .cr {
+    font-family: var(--display);
+    color: var(--ink-1);
+    background: linear-gradient(170deg, #f7f5f1 0%, #efece7 60%, #e7e3dc 100%);
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.005em;
+    line-height: 1.5;
+    position: relative;
+    min-height: 100dvh;
+  }
+  .cr a { color: inherit; text-decoration: none; }
+  .cr p { margin: 0; }
+
+  /* ── Crumb ── */
+  .cr .crumb {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 28px 40px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+  .cr .crumb a { color: var(--accent); }
+  .cr .crumb .num { color: var(--ink-3); }
+
+  /* ── Hero ── */
+  .cr .hero-creative {
+    padding: 32px 40px 0;
+  }
+  .cr .hero-frame {
+    border: 1px solid var(--rule-soft);
+    background: rgba(0, 0, 0, 0.03);
+    line-height: 0;
+  }
+  .cr .hero-img {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    cursor: zoom-in;
+  }
+  .cr .creative-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+  }
+  .cr .creative-meta .pl-lbl {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .cr .creative-meta .c-title {
+    flex: 1;
+  }
+  .cr .creative-meta .dims {
+    color: var(--ink-3);
+    flex-shrink: 0;
+  }
+
+  /* ── Header ── */
+  .cr .header {
+    padding: 48px 40px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cr .header .eyebrow {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .cr .header .eyebrow .cat { color: var(--accent); }
+  .cr .header .eyebrow .sub,
+  .cr .header .eyebrow .sep { color: var(--ink-2); }
+  .cr .header h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(48px, 6.2vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    margin: 0;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  .cr .header .brief {
+    font-family: var(--display);
+    font-size: 18px;
+    line-height: 1.62;
+    color: var(--ink-1);
+    letter-spacing: -0.005em;
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+  .cr .header .brief p { margin: 0; }
+  .cr .header .methods-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 20px;
+  }
+  .cr .header .methods-lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .cr .methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cr .methods .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 9px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink-1);
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* ── Contact sheet ── */
+  .cr .contact-sheet {
+    padding: 56px 40px 80px;
+  }
+  .cr .sheet-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  .cr .sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 480px));
+    gap: 32px 24px;
+    justify-content: center;
+  }
+  .cr .sheet-cell {
+    display: flex;
+    flex-direction: column;
+  }
+  .cr .sheet-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule-soft);
+    background: rgba(0, 0, 0, 0.03);
+    cursor: zoom-in;
+  }
+  .cr .sheet-cell .creative-meta {
+    margin-top: 10px;
+  }
+
+  /* ── Endcap ── */
+  .cr .endcap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.4);
+  }
+  .cr .endcap .cell {
+    padding: 40px;
+    border-right: 1px solid var(--rule-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 240ms ease;
+  }
+  .cr .endcap .cell:hover { background: rgba(255, 255, 255, 0.45); }
+  .cr .endcap .cell:last-child { border-right: 0; }
+  .cr .endcap .cell .dir {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .cr .endcap .cell .ttl {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink-1);
+    max-width: 16ch;
+  }
+  .cr .endcap .cell.next {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  /* ── Footer ── */
+  .cr .footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 24px 40px 28px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+  .cr .footer .links { display: flex; gap: 18px; }
+  .cr .footer .links a { color: var(--accent); }
+
+  /* ── Lightbox ── */
+  .cr-lb {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .cr-lb.open {
+    display: flex;
+  }
+  .cr-lb-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    cursor: zoom-out;
+  }
+  .cr-lb-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    line-height: 1;
+    transition: color 200ms ease;
+  }
+  .cr-lb-close:hover { color: #fff; }
+
+  /* ── Mobile ── */
+  @media (max-width: 767px) {
+    .cr .crumb { padding: 14px 22px 0; font-size: 10.5px; }
+    .cr .hero-creative { padding: 22px 22px 0; }
+    .cr .header { padding: 28px 22px 36px; gap: 18px; }
+    .cr .header h1 { font-size: clamp(38px, 9vw, 64px); max-width: 100%; }
+    .cr .contact-sheet { padding: 32px 22px 48px; }
+    .cr .sheet-grid { grid-template-columns: 1fr; gap: 24px; }
+    .cr .endcap { grid-template-columns: 1fr; }
+    .cr .endcap .cell { padding: 24px 22px; border-right: 0; border-bottom: 1px solid var(--rule-soft); }
+    .cr .endcap .cell:last-child { border-bottom: 0; }
+    .cr .endcap .cell.next { text-align: left; align-items: flex-start; }
+    .cr .footer { padding: 18px 22px 22px; grid-template-columns: 1fr; gap: 12px; }
+  }
+</style>

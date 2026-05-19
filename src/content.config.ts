@@ -33,4 +33,33 @@ const chapters = defineCollection({
   }),
 });
 
-export const collections = { chapters };
+const CreativeNav = z.object({
+  slug: z.string(),
+  title: z.string(),
+});
+
+const creatives = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/creatives' }),
+  schema: ({ image }) =>
+    z.object({
+      number: z.string(),
+      title: z.string(),
+      type: z.literal('creative'),
+      category: z.string(),
+      client: z.string(),
+      year: z.number(),
+      methods: z.array(z.string()),
+      singleImage: z.boolean().optional().default(false),
+      creatives: z.array(
+        z.object({
+          src: image(),
+          title: z.string(),
+          dimensions: z.string(),
+        })
+      ),
+      prev: CreativeNav.optional(),
+      next: CreativeNav.optional(),
+    }),
+});
+
+export const collections = { chapters, creatives };

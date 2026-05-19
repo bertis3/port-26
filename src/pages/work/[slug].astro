@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import ChapterLayout from '../../layouts/ChapterLayout.astro';
+import CreativeLayout from '../../layouts/CreativeLayout.astro';
 import SectionHead from '../../components/mdx/SectionHead';
 import SectionTitle from '../../components/mdx/SectionTitle';
 import Pullquote from '../../components/mdx/Pullquote';
@@ -8,45 +10,108 @@ import SystemDiagram from '../../components/chapters/SystemDiagram';
 import { sectionId, sectionLabel } from '../../utils/chapter';
 
 export async function getStaticPaths() {
-  const chapters = await getCollection('chapters');
-  return chapters.map(entry => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  const [chapterEntries, creativeEntries] = await Promise.all([
+    getCollection('chapters'),
+    getCollection('creatives'),
+  ]);
+  return [
+    ...chapterEntries.map(entry => ({
+      params: { slug: entry.id },
+      props: { collection: 'chapters' as const, entry },
+    })),
+    ...creativeEntries.map(entry => ({
+      params: { slug: entry.id },
+      props: { collection: 'creatives' as const, entry },
+    })),
+  ];
 }
 
-const { entry } = Astro.props;
-const { Content, headings } = await render(entry);
+type Props =
+  | { collection: 'chapters'; entry: CollectionEntry<'chapters'> }
+  | { collection: 'creatives'; entry: CollectionEntry<'creatives'> };
 
-const sections = headings
-  .filter(h => h.depth === 2)
-  .map(h => ({
-    text: h.text,
-    label: sectionLabel(h.text),
-    id: sectionId(h.text),
-  }));
+const props = Astro.props;
 
-const { number, title, category, era, methods, outcomes, prev, next, artifacts } = entry.data;
+// render() works identically for both collection types
+const { Content, headings } = await render(props.entry as CollectionEntry<'chapters'>);
+
+// Prepare layout props in the frontmatter where TS control-flow narrowing works
+let isCreative = false;
+
+let creativeData: {
+  number: string;
+  title: string;
+  category: string;
+  client: string;
+  year: number;
+  methods: string[];
+  singleImage: boolean;
+  creatives: CollectionEntry<'creatives'>['data']['creatives'];
+  prev?: { slug: string; title: string };
+  next?: { slug: string; title: string };
+} | undefined;
+
+let chapterData: {
+  number: string;
+  title: string;
+  category: string;
+  era: string;
+  methods: string[];
+  outcomes: CollectionEntry<'chapters'>['data']['outcomes'];
+  prev?: CollectionEntry<'chapters'>['data']['prev'];
+  next?: CollectionEntry<'chapters'>['data']['next'];
+  artifacts: CollectionEntry<'chapters'>['data']['artifacts'];
+  sections: { text: string; label: string; id: string }[];
+} | undefined;
+
+if (props.collection === 'creatives') {
+  isCreative = true;
+  const d = props.entry.data;
+  creativeData = {
+    number: d.number,
+    title: d.title,
+    category: d.category,
+    client: d.client,
+    year: d.year,
+    methods: [...d.methods],
+    singleImage: d.singleImage,
+    creatives: [...d.creatives],
+    prev: d.prev,
+    next: d.next,
+  };
+} else {
+  const d = props.entry.data;
+  const sections = headings
+    .filter(h => h.depth === 2)
+    .map(h => ({ text: h.text, label: sectionLabel(h.text), id: sectionId(h.text) }));
+  chapterData = {
+    number: d.number,
+    title: d.title,
+    category: d.category,
+    era: d.era,
+    methods: [...d.methods],
+    outcomes: [...d.outcomes],
+    prev: d.prev,
+    next: d.next,
+    artifacts: [...d.artifacts],
+    sections,
+  };
+}
 ---
 
-<ChapterLayout
-  number={number}
-  title={title}
-  category={category}
-  era={era}
-  methods={[...methods]}
-  outcomes={[...outcomes]}
-  prev={prev}
-  next={next}
-  artifacts={[...artifacts]}
-  sections={sections}
->
-  <Content
-    components={{
-      h2: SectionHead,
-      h3: SectionTitle,
-      Pullquote,
-      SystemDiagram,
-    }}
-  />
-</ChapterLayout>
+{isCreative && creativeData ? (
+  <CreativeLayout {...creativeData}>
+    <Content />
+  </CreativeLayout>
+) : chapterData ? (
+  <ChapterLayout {...chapterData}>
+    <Content
+      components={{
+        h2: SectionHead,
+        h3: SectionTitle,
+        Pullquote,
+        SystemDiagram,
+      }}
+    />
+  </ChapterLayout>
+) : null}
