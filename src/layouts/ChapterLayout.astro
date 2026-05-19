@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 
 interface Outcome { num: string; lbl: string; }
-interface ChapterRef { num: string; title: string; meta: string; slug?: string; }
+interface NavRef { slug: string; title: string; type: 'project' | 'creative'; num: string; meta: string; }
 interface Artifact { num: string; title: string; tag: string; meta: string; year: string; }
 interface Section { text: string; label: string; id: string; }
 
@@ -14,11 +14,11 @@ interface Props {
   era: string;
   methods: string[];
   outcomes: Outcome[];
-  prev?: ChapterRef;
-  next?: ChapterRef;
+  prev?: NavRef;
+  next?: NavRef;
   artifacts: Artifact[];
   sections: Section[];
-  totalChapters?: number;
+  totalItems?: number;
   readingTime?: string;
 }
 
@@ -33,11 +33,11 @@ const {
   next,
   artifacts,
   sections,
-  totalChapters = 5,
+  totalItems = 5,
   readingTime = '~6 min read',
 } = Astro.props;
 
-const total = String(totalChapters).padStart(2, '0');
+const total = String(totalItems).padStart(2, '0');
 const prevHref = prev?.slug ? `/work/${prev.slug}` : '/#work';
 const nextHref = next?.slug ? `/work/${next.slug}` : '/#work';
 const artifactSectionNum = String(sections.length + 1).padStart(2, '0');
@@ -150,8 +150,8 @@ const artifactSectionNum = String(sections.length + 1).padStart(2, '0');
       <section class="endcap">
         {prev ? (
           <a href={prevHref} class="cell prev">
-            <div class="dir">← Previous chapter</div>
-            <div class="meta-line meta">§ {prev.num} of {total}</div>
+            <div class="dir">← Previous {prev.type}</div>
+            {prev.type === 'project' && <div class="meta-line meta">§ {prev.num} of {total}</div>}
             <div class="ttl">{prev.title}</div>
             <div class="meta-line meta">{prev.meta}</div>
           </a>
@@ -163,8 +163,8 @@ const artifactSectionNum = String(sections.length + 1).padStart(2, '0');
         )}
         {next ? (
           <a href={nextHref} class="cell next">
-            <div class="dir">Next chapter →</div>
-            <div class="meta-line meta">§ {next.num} of {total}</div>
+            <div class="dir">Next {next.type} →</div>
+            {next.type === 'project' && <div class="meta-line meta">§ {next.num} of {total}</div>}
             <div class="ttl">{next.title}</div>
             <div class="meta-line meta">{next.meta}</div>
           </a>

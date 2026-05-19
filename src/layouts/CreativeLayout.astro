@@ -13,6 +13,9 @@ interface Creative {
 interface NavRef {
   slug: string;
   title: string;
+  type: 'project' | 'creative';
+  num: string;
+  meta: string;
 }
 
 interface Props {
@@ -123,7 +126,7 @@ function pl(index: number): string {
       <section class="endcap">
         {prev ? (
           <a href={prevHref} class="cell prev">
-            <div class="dir">← Previous</div>
+            <div class="dir">← Previous {prev.type}</div>
             <div class="ttl">{prev.title}</div>
           </a>
         ) : (
@@ -134,7 +137,7 @@ function pl(index: number): string {
         )}
         {next ? (
           <a href={nextHref} class="cell next">
-            <div class="dir">Next →</div>
+            <div class="dir">Next {next.type} →</div>
             <div class="ttl">{next.title}</div>
           </a>
         ) : (

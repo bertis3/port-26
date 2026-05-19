@@ -3,13 +3,6 @@ import { glob } from 'astro/loaders';
 
 const Outcome = z.object({ num: z.string(), lbl: z.string() });
 
-const ChapterRef = z.object({
-  num: z.string(),
-  title: z.string(),
-  meta: z.string(),
-  slug: z.string().optional(),
-});
-
 const Artifact = z.object({
   num: z.string(),
   title: z.string(),
@@ -27,15 +20,8 @@ const chapters = defineCollection({
     era: z.string(),
     methods: z.array(z.string()),
     outcomes: z.array(Outcome),
-    prev: ChapterRef.optional(),
-    next: ChapterRef.optional(),
     artifacts: z.array(Artifact),
   }),
-});
-
-const CreativeNav = z.object({
-  slug: z.string(),
-  title: z.string(),
 });
 
 const creatives = defineCollection({
@@ -57,8 +43,6 @@ const creatives = defineCollection({
           dimensions: z.string(),
         })
       ),
-      prev: CreativeNav.optional(),
-      next: CreativeNav.optional(),
     }),
 });
 

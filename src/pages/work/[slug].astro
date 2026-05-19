@@ -8,6 +8,7 @@ import SectionTitle from '../../components/mdx/SectionTitle';
 import Pullquote from '../../components/mdx/Pullquote';
 import SystemDiagram from '../../components/chapters/SystemDiagram';
 import { sectionId, sectionLabel } from '../../utils/chapter';
+import { workItems } from '../../data/content';
 
 export async function getStaticPaths() {
   const [chapterEntries, creativeEntries] = await Promise.all([
@@ -35,6 +36,25 @@ const props = Astro.props;
 // render() works identically for both collection types
 const { Content, headings } = await render(props.entry as CollectionEntry<'chapters'>);
 
+// Compute prev/next from the canonical workItems order with wrap-around
+type ComputedNavRef = { slug: string; title: string; type: 'project' | 'creative'; num: string; meta: string };
+
+const idx = workItems.findIndex(w => w.slug === props.entry.id);
+const total = workItems.length;
+
+function toNavRef(item: typeof workItems[number]): ComputedNavRef {
+  return {
+    slug: item.slug,
+    title: item.title,
+    type: item.type === 'case' ? 'project' : 'creative',
+    num: item.n,
+    meta: item.meta,
+  };
+}
+
+const computedPrev = idx >= 0 ? toNavRef(workItems[(idx - 1 + total) % total]) : undefined;
+const computedNext = idx >= 0 ? toNavRef(workItems[(idx + 1) % total]) : undefined;
+
 // Prepare layout props in the frontmatter where TS control-flow narrowing works
 let isCreative = false;
 
@@ -47,8 +67,8 @@ let creativeData: {
   methods: string[];
   singleImage: boolean;
   creatives: CollectionEntry<'creatives'>['data']['creatives'];
-  prev?: { slug: string; title: string };
-  next?: { slug: string; title: string };
+  prev?: ComputedNavRef;
+  next?: ComputedNavRef;
 } | undefined;
 
 let chapterData: {
@@ -58,10 +78,11 @@ let chapterData: {
   era: string;
   methods: string[];
   outcomes: CollectionEntry<'chapters'>['data']['outcomes'];
-  prev?: CollectionEntry<'chapters'>['data']['prev'];
-  next?: CollectionEntry<'chapters'>['data']['next'];
+  prev?: ComputedNavRef;
+  next?: ComputedNavRef;
   artifacts: CollectionEntry<'chapters'>['data']['artifacts'];
   sections: { text: string; label: string; id: string }[];
+  totalItems: number;
 } | undefined;
 
 if (props.collection === 'creatives') {
@@ -76,8 +97,8 @@ if (props.collection === 'creatives') {
     methods: [...d.methods],
     singleImage: d.singleImage,
     creatives: [...d.creatives],
-    prev: d.prev,
-    next: d.next,
+    prev: computedPrev,
+    next: computedNext,
   };
 } else {
   const d = props.entry.data;
@@ -91,10 +112,11 @@ if (props.collection === 'creatives') {
     era: d.era,
     methods: [...d.methods],
     outcomes: [...d.outcomes],
-    prev: d.prev,
-    next: d.next,
+    prev: computedPrev,
+    next: computedNext,
     artifacts: [...d.artifacts],
     sections,
+    totalItems: total,
   };
 }
 ---

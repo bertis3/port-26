@@ -9,6 +9,7 @@ export const workItems = [
     metric: "10,000+ tests",
     year: "2010-19",
     slug: "conversion-experimentation",
+    meta: "Experimentation · CRO · 2010–19",
   },
   {
     n: "02",
@@ -18,6 +19,7 @@ export const workItems = [
     metric: "82% faster",
     year: "2024-25",
     slug: "ai-production-systems",
+    meta: "AI · Automation · 2024–25",
   },
   {
     n: "03",
@@ -27,6 +29,7 @@ export const workItems = [
     metric: "3 testing tracks",
     year: "2017",
     slug: "ux-research",
+    meta: "UX Research · 2017",
   },
   {
     n: "04",
@@ -36,6 +39,7 @@ export const workItems = [
     metric: "Single-page",
     year: "2022",
     slug: "howl-prototype",
+    meta: "Homepage · Prototype · 2022",
   },
   {
     n: "05",
@@ -45,6 +49,7 @@ export const workItems = [
     metric: "~136 assets",
     year: "2010",
     slug: "boeing-epic-banners",
+    meta: "Display · Animated · 2009",
   },
 ] as const;
 
