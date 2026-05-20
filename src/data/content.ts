@@ -89,12 +89,12 @@ export const stats = [
 
 export const experience = [
   {
-    role: "Performance Strategy & AI Production Systems Consultant",
+    role: "Performance Strategy Consultant",
     company: "Rooftop Digital",
     period: "2025",
   },
   {
-    role: "Senior Manager, Creative Design & Development",
+    role: "Senior Manager, Design & Development",
     company: "Rooftop Digital",
     period: "2020–2025",
   },
