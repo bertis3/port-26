@@ -63,19 +63,21 @@ export const processChain = [
 ] as const;
 
 export const skills = [
-  "Cross-functional Leadership",
+  "CRO · RPV",
   "Experimentation Strategy",
   "A/B & MVT",
-  "CRO · RPV",
   "Funnel Optimization",
   "Form UX",
   "UX Research",
   "UX Writing · Microcopy",
+  "Cross-functional Leadership",
+  "AI Systems Design",
+  "Prompt Engineering",
+  "Claude Code",
+  "Claude Design",
   "HTML · CSS · JS",
   "React",
   "Figma · XD",
-  "AI Systems Design",
-  "Prompt Engineering",
   "Design Systems",
   "Data Viz · Tableau",
 ] as const;
